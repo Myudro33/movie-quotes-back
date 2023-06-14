@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\VerificationController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,7 +14,12 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/', function () {
-	return view('welcome');
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+	return $request->user();
 });
+Route::controller(VerificationController::class)->group(function () {
+	Route::get('/verify-email/{token}', 'verifyEmail')->name('verification.verify');
+	Route::get('/password-update/{token}', 'passwordReset');
+	Route::get('/update-email/{email}', 'updateEmail');
+});
+Route::view('/', 'swagger')->name('landing');
