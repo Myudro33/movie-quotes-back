@@ -1,0 +1,42 @@
+paths:
+  /register:
+    post:
+      tags:
+        - user
+      summary: Create user
+      description: This can only be done by the logged in user.
+      operationId: createUser
+      requestBody:
+        description: Created user object
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/user.yaml#/schemas/Register'
+          application/xml:
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '../schemas/user.yaml#/schemas/Register'
+  /login:
+    post:
+      tags:
+        - user
+      summary: User Login
+      description: Logs in a user and returns an access token
+      requestBody:
+        description: Created user object
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/user.yaml#/schemas/Login'
+          application/xml:
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '../schemas/user.yaml#/schemas/Login'
