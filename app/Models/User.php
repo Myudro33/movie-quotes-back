@@ -31,6 +31,16 @@ class User extends Authenticatable implements MustVerifyEmail
 		'avatar',
 	];
 
+	public function movies()
+	{
+		return $this->hasMany(Movie::class);
+	}
+
+	public function quotes()
+	{
+		return $this->hasMany(Quote::class);
+	}
+
 	public function setPasswordAttribute($value)
 	{
 		$this->attributes['password'] = Hash::make($value);
