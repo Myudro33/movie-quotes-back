@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PasswordResetController;
@@ -52,4 +53,7 @@ Route::controller(QuoteController::class)->group(function () {
 
 Route::controller(LikeController::class)->group(function () {
 	Route::post('/addLike', 'like');
+});
+Route::controller(CommentController::class)->group(function () {
+	Route::post('/add-comment', 'add_comment');
 });
