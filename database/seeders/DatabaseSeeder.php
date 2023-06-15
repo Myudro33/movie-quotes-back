@@ -12,10 +12,13 @@ class DatabaseSeeder extends Seeder
 	 */
 	public function run(): void
 	{
-		// \App\Models\User::factory(10)->create();
-
-		\App\Models\User::factory(2)->create([
-			'password'    => 'nikanika',
+		\App\Models\User::factory(5)->create([
+			'password'          => 'nikanika',
+			'verification_token'=> null,
 		]);
+		\App\Models\Movie::factory(10)->create();
+		\App\Models\Quote::factory(10)->create();
+		\App\Models\Comment::factory(10)->create();
+		\App\Models\Like::factory(10)->create();
 	}
 }
