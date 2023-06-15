@@ -9,7 +9,7 @@ class Quote extends Model
 {
 	use HasFactory;
 
-	protected $fillable = ['image', 'title', 'movie_id'];
+	protected $fillable = ['image', 'title', 'movie_id', 'user_id'];
 
 	public function movie()
 	{
@@ -19,5 +19,15 @@ class Quote extends Model
 	public function author()
 	{
 		return $this->belongsTo(User::class, 'user_id');
+	}
+
+	public function comments()
+	{
+		return $this->hasMany(Comment::class);
+	}
+
+	public function likes()
+	{
+		return $this->hasMany(Like::class);
 	}
 }
