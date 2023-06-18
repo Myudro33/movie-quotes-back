@@ -18,17 +18,14 @@ class GoogleAuthController extends Controller
 		$google_user = Socialite::driver('google')->stateless()->user();
 		$user = User::where('google_id', $google_user->getId())->first();
 		if (!$user) {
-			$new_user = User::create([
+			$user = User::create([
 				'username'         => $google_user->getName(),
 				'email'            => $google_user->getEmail(),
 				'google_id'        => $google_user->getId(),
 				'avatar'           => $google_user->getAvatar(),
 			]);
-			Auth::login($new_user);
-			return redirect('http://localhost:5174/feed');
-		} else {
-			Auth::login($user);
-			return redirect('http://localhost:5174/feed');
 		}
+		Auth::login($user);
+		return redirect(env('GOOGLE_AUTH_REDIRECT'));
 	}
 }

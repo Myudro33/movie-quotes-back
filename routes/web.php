@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\VerificationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -21,5 +22,9 @@ Route::controller(VerificationController::class)->group(function () {
 	Route::get('/verify-email/{token}', 'verifyEmail')->name('verification.verify');
 	Route::get('/password-update/{token}', 'passwordReset');
 	Route::get('/update-email/{email}', 'updateEmail');
+});
+Route::controller(GoogleAuthController::class)->group(function () {
+	Route::get('auth/redirect', 'redirect');
+	Route::get('auth/google/callback', 'callback');
 });
 Route::view('/', 'swagger')->name('landing');
