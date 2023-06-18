@@ -2,22 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\LikeResource;
 use App\Models\Like;
 use Illuminate\Http\Request;
 
 class LikeController extends Controller
 {
-	public function like(Request $request)
+	public function create(Request $request)
 	{
 		$new_like = Like::where('user_id', $request->user_id)->where('quote_id', $request->quote_id)->first();
 		if (!$new_like) {
-			Like::create([
+			$like = Like::create([
 				'quote_id'=> $request->quote_id,
 				'user_id' => $request->user_id,
 			]);
+			return response()->json(['message'=>'success', 'like'=>new LikeResource($like)], 201);
 		} else {
 			$new_like->delete();
+			return response()->json(['message'=>'like deleted', 'like'=>new LikeResource($new_like)], 202);
 		}
-		return response()->json(['message'=>'success'], 201);
 	}
 }
