@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\LikeController;
+use App\Http\Controllers\MovieController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\UserController;
@@ -25,11 +27,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 	return $request->user();
 });
 Route::controller(UserController::class)->group(function () {
+	Route::post('/upload-avatar', 'upload');
+	Route::put('/update-user/{user}', 'update_user');
+});
+Route::controller(AuthController::class)->group(function () {
 	Route::post('/register', 'register');
 	Route::post('/login', 'login');
 	Route::post('/logout', 'logout');
-	Route::post('/upload-avatar', 'upload');
-	Route::put('/update-user/{user}', 'update_user');
 });
 Route::controller(GoogleAuthController::class)->group(function () {
 	Route::get('auth/redirect', 'redirect');
@@ -49,11 +53,15 @@ Route::controller(PasswordResetController::class)->group(function () {
 
 Route::controller(QuoteController::class)->group(function () {
 	Route::get('/quotes', 'get_quotes');
+	Route::post('/add-quote', 'add_quote');
+});
+Route::controller(MovieController::class)->group(function () {
+	Route::get('/movies', 'get_movies');
 });
 
 Route::controller(LikeController::class)->group(function () {
-	Route::post('/addLike', 'like');
+	Route::post('/addLike', 'create');
 });
 Route::controller(CommentController::class)->group(function () {
-	Route::post('/add-comment', 'add_comment');
+	Route::post('/add-comment', 'create');
 });
