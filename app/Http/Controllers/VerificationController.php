@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class VerificationController extends Controller
 {
@@ -19,11 +20,15 @@ class VerificationController extends Controller
 
 	public function passwordReset($token)
 	{
-		$token = $token;
-		$email = DB::table('password_reset_tokens')
-			->where('token', $token)
-			->first()->email;
-		return redirect('http://localhost:5174?' . 'email=' . $email . '&token=' . $token . '&stage=reset-email-verified');
+		$plainTextToken = $token;
+		$passwordResetTokens = DB::table('password_reset_tokens')->get();
+		foreach ($passwordResetTokens as $passwordResetToken) {
+			if (Hash::check($plainTextToken, $passwordResetToken->token)) {
+				$user = DB::table('users')->where('email', $passwordResetToken->email)->first();
+				return redirect('http://localhost:5174?' . 'email=' . $user->email . '&token=' . $token . '&stage=reset-email-verified');
+				break;
+			}
+		}
 	}
 
 	public function updateEmail($request)
