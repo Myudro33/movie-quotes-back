@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PasswordUpdateRequest;
 use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 
@@ -22,10 +22,10 @@ class PasswordResetController extends Controller
 				: response()->json(['message'=>'error'], 401);
 	}
 
-	public function update(Request $request)
+	public function update(PasswordUpdateRequest $request)
 	{
 		$status = Password::reset(
-			$request->only('email', 'password', 'token'),
+			$request->validated(),
 			function (User $user, string $password) {
 				$user->forceFill([
 					'password' => $password,
