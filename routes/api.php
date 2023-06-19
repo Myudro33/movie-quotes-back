@@ -61,6 +61,7 @@ Route::controller(MovieController::class)->group(function () {
 
 Route::controller(LikeController::class)->group(function () {
 	Route::post('/addLike', 'create');
+	Route::post('/deleteLike', 'destroy');
 });
 Route::controller(CommentController::class)->group(function () {
 	Route::post('/add-comment', 'create');
