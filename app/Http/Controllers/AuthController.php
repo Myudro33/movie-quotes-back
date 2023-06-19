@@ -26,16 +26,12 @@ class AuthController extends Controller
 		->orWhere('username', $request->validated('username'))
 		->first();
 		if ($user) {
-			if ($user->email_verified_at !== null) {
-				if (Hash::check($request->validated('password'), $user->password)) {
-					if (Auth::attempt(['username' => $request->username, 'password' => $request->validated('password')], (bool) $request->has('remember'))) {
-						return response()->json(['message'=>'success', 'user'=>$user], 200);
-					} elseif (Auth::attempt(['email' => $request->username, 'password' => $request->validated('password')], (bool) $request->has('remember'))) {
-						return response()->json(['message'=>'success', 'user'=>$user], 200);
-					}
+			if (Hash::check($request->validated('password'), $user->password)) {
+				if (Auth::attempt(['username' => $request->username, 'password' => $request->validated('password')], (bool) $request->has('remember'))) {
+					return response()->json(['message'=>'success', 'user'=>$user], 200);
+				} elseif (Auth::attempt(['email' => $request->username, 'password' => $request->validated('password')], (bool) $request->has('remember'))) {
+					return response()->json(['message'=>'success', 'user'=>$user], 200);
 				}
-			} else {
-				return response()->json(['message' => __('login.must_verify')], 401);
 			}
 		}
 		return response()->json(['message' => __('login.wrong_username_or_password')], 401);
