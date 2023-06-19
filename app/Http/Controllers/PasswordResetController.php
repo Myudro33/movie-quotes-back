@@ -22,7 +22,7 @@ class PasswordResetController extends Controller
 				: response()->json(['message'=>'error'], 401);
 	}
 
-	public function reset_password(Request $request)
+	public function update(Request $request)
 	{
 		$status = Password::reset(
 			$request->only('email', 'password', 'token'),

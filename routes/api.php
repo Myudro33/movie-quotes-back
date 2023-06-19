@@ -47,7 +47,7 @@ Route::controller(VerificationController::class)->group(function () {
 
 Route::controller(PasswordResetController::class)->group(function () {
 	Route::post('/forgot-password/{user}', 'send_reset_password_mail')->name('password.email');
-	Route::put('/password-update/{token}', 'reset_password')->name('password.reset');
+	Route::put('/password-update/{token}', 'update')->name('password.reset');
 });
 
 Route::controller(QuoteController::class)->group(function () {
