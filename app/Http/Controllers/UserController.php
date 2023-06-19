@@ -2,34 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
-	public function update_user(Request $request, User $user)
+	public function update(UserUpdateRequest $request, User $user)
 	{
-		if ($request->has('username') && $request->username) {
-			$user->username = $request->username;
-		}
-		if ($request->has('email') && $request->email !== $user->email) {
-			$new_email_user = User::where('email', $request->email)->first();
+		$user->username = $request->validated()['username'];
+		$email = $request->validated()['email'];
+		if ($email !== $user->email && $request->has('email')) {
+			$new_email_user = User::where('email', $email)->first();
 			if ($new_email_user) {
 				return response()->json(['message'=>'email already used'], 401);
 			}
-			Mail::send('email.email-update', ['email' => $user->email, 'new_email'=>$request->email], function ($message) use ($request) {
+			Mail::send('emails.email-update', ['email' => $user->email, 'new_email'=>$email], function ($message) use ($request) {
 				$message->to($request->email);
 				$message->subject('Email Update');
 			});
-			return response()->json(['email'=>$user->email, 'new_email'=>$request->email, 'message'=>'email sent successfully'], 200);
+			return response()->json(['email'=>$user->email, 'new_email'=>$email, 'message'=>'email sent successfully'], 200);
 		}
-		if ($request->has('newPassword') && $request->newPassword) {
-			if ($request->confirmPassword === $request->newPassword) {
-				$user->password = $request->newPassword;
-			} else {
-				return response()->json(['message'=>''], 401);
-			}
+		if ($request->has('password')) {
+			$user->password = $request->password;
 		}
 		$user->verification_token = null;
 		$user->save();
