@@ -27,8 +27,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 	return $request->user();
 });
 Route::controller(UserController::class)->group(function () {
-	Route::post('/upload-avatar', 'upload');
-	Route::put('/update-user/{user}', 'update');
+	Route::post('/update-user/{user}', 'update');
 });
 Route::controller(AuthController::class)->group(function () {
 	Route::post('/register', 'register');
