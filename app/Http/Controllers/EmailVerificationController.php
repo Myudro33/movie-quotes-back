@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
-class VerificationController extends Controller
+class EmailVerificationController extends Controller
 {
 	public function verifyEmail($token)
 	{
