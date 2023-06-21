@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 
 class GoogleAuthController extends Controller
@@ -25,6 +26,7 @@ class GoogleAuthController extends Controller
 				'avatar'           => $google_user->getAvatar(),
 			]);
 		}
+		Auth::login($user);
 		return response(['message'=>'success', 'user'=>$user], 200);
 	}
 }
