@@ -3,9 +3,16 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Contracts\Validation\Validator;
 
 class UserRegisterRequest extends FormRequest
 {
+	protected function failedValidation(Validator $validator)
+	{
+		throw new HttpResponseException(response()->json(['message'=>'failure', 'errors' => $validator->errors()], 422));
+	}
+
 	public function rules(): array
 	{
 		return [
