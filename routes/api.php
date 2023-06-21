@@ -59,7 +59,7 @@ Route::controller(MovieController::class)->group(function () {
 
 Route::controller(LikeController::class)->group(function () {
 	Route::post('/addLike', 'create')->name('create.like');
-	Route::post('/deleteLike', 'destroy')->name('destroy.like');
+	Route::delete('/deleteLike/{like}', 'delete')->name('delete.like');
 });
 Route::controller(CommentController::class)->group(function () {
 	Route::post('/add-comment', 'create')->name('create.comment');

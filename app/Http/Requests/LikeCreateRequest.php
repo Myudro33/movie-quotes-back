@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Like;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Contracts\Validation\Validator;
 
 class LikeCreateRequest extends FormRequest
 {
@@ -22,7 +23,26 @@ class LikeCreateRequest extends FormRequest
 	{
 		return [
 			'quote_id'=> 'exists:quotes,id',
-			'user_id' => 'exists:users,id|unique:likes,user_id',
+			'user_id' => 'exists:users,id',
 		];
+	}
+
+	public function withValidator($validator)
+	{
+		$validator->after(function ($validator) {
+			$quoteId = $this->input('quote_id');
+			$userId = $this->input('user_id');
+
+			if ($this->userAlreadyLiked($quoteId, $userId)) {
+				$validator->errors()->add('user_id', 'The given user has already liked the specified quote.');
+			}
+		});
+	}
+
+	private function userAlreadyLiked($quoteId, $userId)
+	{
+		return Like::where('quote_id', $quoteId)
+			->where('user_id', $userId)
+			->exists();
 	}
 }
