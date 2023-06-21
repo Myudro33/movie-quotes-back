@@ -27,12 +27,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 	return $request->user();
 });
 Route::controller(UserController::class)->group(function () {
-	Route::post('/update-user/{user}', 'update');
+	Route::post('/update-user/{user}', 'update')->name('update.user');
 });
 Route::controller(AuthController::class)->group(function () {
-	Route::post('/register', 'register');
-	Route::post('/login', 'login');
-	Route::post('/logout', 'logout');
+	Route::post('/register', 'register')->name('register.user');
+	Route::post('/login', 'login')->name('login.user');
+	Route::post('/logout', 'logout')->name('logout.user');
 });
 Route::controller(GoogleAuthController::class)->group(function () {
 	Route::get('auth/redirect', 'redirect');
@@ -45,22 +45,22 @@ Route::controller(EmailVerificationController::class)->group(function () {
 });
 
 Route::controller(PasswordResetController::class)->group(function () {
-	Route::post('/forgot-password/{user}', 'send_reset_password_mail')->name('password.email');
-	Route::put('/password-update/{token}', 'update')->name('password.reset');
+	Route::post('/forgot-password/{user}', 'send_reset_password_mail')->name('reset_password.email');
+	Route::put('/password-update/{token}', 'update')->name('password.reset')->name('password.update');
 });
 
 Route::controller(QuoteController::class)->group(function () {
-	Route::get('/quotes', 'index');
-	Route::post('/add-quote', 'store');
+	Route::get('/quotes', 'index')->name('get.quotes');
+	Route::post('/add-quote', 'store')->name('add.quote');
 });
 Route::controller(MovieController::class)->group(function () {
-	Route::get('/movies', 'index');
+	Route::get('/movies', 'index')->name('get.movies');
 });
 
 Route::controller(LikeController::class)->group(function () {
-	Route::post('/addLike', 'create');
-	Route::post('/deleteLike', 'destroy');
+	Route::post('/addLike', 'create')->name('create.like');
+	Route::post('/deleteLike', 'destroy')->name('destroy.like');
 });
 Route::controller(CommentController::class)->group(function () {
-	Route::post('/add-comment', 'create');
+	Route::post('/add-comment', 'create')->name('create.comment');
 });
