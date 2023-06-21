@@ -16,21 +16,22 @@ class MovieFactory extends Factory
 	 */
 	public function definition(): array
 	{
+		$fakerKa = \Faker\Factory::create('ka_GE');
 		return [
 			'user_id'    => fake()->numberBetween(1, 5),
 			'name'       => json_encode([
 				'en'=> fake()->word(),
-				'ka'=> fake()->word(),
+				'ka'=> $fakerKa->realText(10),
 			]),
 			'year'       => fake()->numberBetween(1970, 2023),
 			'image'      => fake()->imageUrl(),
 			'genre'      => json_encode([
 				'en'=> fake()->word(),
-				'ka'=> fake()->word(),
+				'ka'=> $fakerKa->realText(10),
 			]),
 			'description'=> json_encode([
 				'en'=> fake()->sentence(),
-				'ka'=> fake()->sentence(),
+				'ka'=> $fakerKa->realText(10),
 			]),
 			'director'   => fake()->userName(),
 		];

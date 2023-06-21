@@ -16,10 +16,11 @@ class QuoteFactory extends Factory
 	 */
 	public function definition(): array
 	{
+		$fakerKa = \Faker\Factory::create('ka_GE');
 		return [
 			'title'      => json_encode([
 				'en'=> fake()->word(),
-				'ka'=> fake()->word(),
+				'ka'=> $fakerKa->realText(10),
 			]),
 			'image'              => fake()->imageUrl(),
 			'movie_id'           => fake()->numberBetween(1, 2),
