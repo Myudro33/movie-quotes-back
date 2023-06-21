@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\GoogleAuthController;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,11 +16,6 @@ use Illuminate\Support\Facades\Route;
 */
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 	return $request->user();
-});
-Route::controller(EmailVerificationRequest::class)->group(function () {
-	Route::get('/verify-email/{token}', 'verifyEmail')->name('verification.verify');
-	Route::get('/password-update/{token}', 'passwordReset');
-	Route::get('/update-email/{email}', 'updateEmail');
 });
 Route::controller(GoogleAuthController::class)->group(function () {
 	Route::get('auth/redirect', 'redirect');

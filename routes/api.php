@@ -8,7 +8,7 @@ use App\Http\Controllers\MovieController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\UserController;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use App\Http\Controllers\EmailVerificationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -38,10 +38,10 @@ Route::controller(GoogleAuthController::class)->group(function () {
 	Route::get('auth/redirect', 'redirect');
 	Route::get('auth/google/callback', 'callback');
 });
-Route::controller(EmailVerificationRequest::class)->group(function () {
+Route::controller(EmailVerificationController::class)->group(function () {
 	Route::get('/verify-email/{token}', 'verifyEmail');
-	Route::get('/update-email/{email}', 'updateEmail');
 	Route::get('/password-update/{token}', 'passwordReset');
+	Route::post('/update-email/{token}', 'updateEmail');
 });
 
 Route::controller(PasswordResetController::class)->group(function () {
