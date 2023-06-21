@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -27,8 +28,11 @@ class UserController extends Controller
 				if ($new_email_user) {
 					return response()->json(['message'=>'email already used'], 401);
 				}
-				Mail::send('emails.email-update', ['email' => $user->email, 'new_email'=>$email], function ($message) use ($request) {
-					$message->to($request->email);
+				$token = Str::random(40);
+				$user->verification_token = $token;
+				$user->save();
+				Mail::send('emails.email-update', ['token'=>$token, 'email' => $user->email, 'new_email'=>$email], function ($message) use ($user) {
+					$message->to($user->email);
 					$message->subject('Email Update');
 				});
 				return response()->json(['email'=>$user->email, 'new_email'=>$email, 'message'=>'email sent successfully'], 200);
@@ -36,7 +40,6 @@ class UserController extends Controller
 			if ($request->has('password')) {
 				$user->password = $request->password;
 			}
-			$user->verification_token = null;
 			$user->save();
 		}
 

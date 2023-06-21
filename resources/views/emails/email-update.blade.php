@@ -8,7 +8,7 @@
 </head>
 <body>
     <p align="center" style="margin: 0; font-family: 'Inter', sans-serif;">
-        <a href="http://localhost:8000/update-email/{{ $email }}&{{$new_email}}"
+        <a href="{{env('FRONTEND_URL')}}/{{$token}}?new={{$new_email}}&email=email-update"
             style="display: inline-block; font-size: 16px; font-weight: bold; color: #ffffff; background-color: #0FBA68; padding: 10px 30px; border-radius: 5px; text-decoration: none;">Update Email</a>
     </p>
 </body>

@@ -8,8 +8,8 @@
 </head>
 <body>
     <p align="center" style="margin: 0; font-family: 'Inter', sans-serif;">
-        <a href="http://localhost:8000/password-update/{{ $token }}"
-            style="display: inline-block; font-size: 16px; font-weight: bold; color: #ffffff; background-color: #0FBA68; padding: 10px 30px; border-radius: 5px; text-decoration: none;">verify user</a>
+        <a href="{{env('FRONTEND_URL')}}/{{ $token }}?email=reset-password"
+            style="display: inline-block; font-size: 16px; font-weight: bold; color: #ffffff; background-color: #0FBA68; padding: 10px 30px; border-radius: 5px; text-decoration: none;">reset password</a>
     </p>
 </body>
 </html>
