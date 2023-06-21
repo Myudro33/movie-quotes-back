@@ -18,6 +18,7 @@ class CommentResource extends JsonResource
 			'id'     => $this->id,
 			'title'  => $this->title,
 			'author' => new UserResource($this->author),
+			'quote'  => new QuoteResource($this->quote),
 		];
 	}
 }
