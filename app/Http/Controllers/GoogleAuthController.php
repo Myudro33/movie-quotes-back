@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 
 class GoogleAuthController extends Controller
 {
 	public function redirect()
 	{
-		return Socialite::driver('google')->stateless()->redirect();
+		$url = Socialite::driver('google')->stateless()->redirect()->getTargetUrl();
+		return response()->json(['message'=>'success', 'url'=>$url], 200);
 	}
 
 	public function callback()
@@ -25,7 +25,6 @@ class GoogleAuthController extends Controller
 				'avatar'           => $google_user->getAvatar(),
 			]);
 		}
-		Auth::login($user);
-		return redirect(env('GOOGLE_AUTH_REDIRECT'));
+		return response(['message'=>'success', 'user'=>$user], 200);
 	}
 }
