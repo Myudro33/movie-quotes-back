@@ -54,7 +54,7 @@ Route::controller(QuoteController::class)->group(function () {
 	Route::post('/add-quote', 'store');
 });
 Route::controller(MovieController::class)->group(function () {
-	Route::get('/movies', 'get_movies');
+	Route::get('/movies', 'index');
 });
 
 Route::controller(LikeController::class)->group(function () {
