@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EmailUpdateRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -31,7 +31,7 @@ class EmailVerificationController extends Controller
 		}
 	}
 
-	public function updateEmail(Request $request, $token)
+	public function updateEmail(EmailUpdateRequest $request, $token)
 	{
 		$user = User::where('verification_token', $token)->first();
 		$user->email = $request->new_email;
