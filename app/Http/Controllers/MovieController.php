@@ -13,6 +13,11 @@ class MovieController extends Controller
 		return MovieResource::collection(Movie::all());
 	}
 
+	public function get(Movie $movie)
+	{
+		return response()->json(['message'=>'success', 'movie'=>new MovieResource($movie)], 200);
+	}
+
 	public function store(MovieStoreRequest $request)
 	{
 		$image = $request->file('image');
