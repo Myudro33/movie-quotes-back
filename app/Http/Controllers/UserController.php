@@ -19,13 +19,13 @@ class UserController extends Controller
 			$avatar = $request->file('avatar');
 			$filename = $user->id . $avatar->getClientOriginalName();
 			$avatar->storeAs('avatars', $filename, 'public');
-			$user = User::where('email', $request->email)->first();
 			$user->avatar = asset('storage/avatars/' . $filename);
 			$user->save();
-
 			return response()->json(['avatar'=>$user->avatar], 200);
 		} else {
-			$user->username = $request->username;
+			if ($request->has('username')) {
+				$user->username = $request->username;
+			}
 			$email = $request->email;
 			if ($email !== $user->email) {
 				$token = Str::random(40);

@@ -27,7 +27,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 	return $request->user();
 });
 Route::controller(UserController::class)->group(function () {
-	Route::put('/update-user/{user}', 'update')->name('user.update');
+	Route::post('/update-user/{user}', 'update')->name('user.update');
 });
 Route::controller(AuthController::class)->group(function () {
 	Route::post('/register', 'register')->name('user.register');
@@ -55,6 +55,7 @@ Route::controller(QuoteController::class)->group(function () {
 });
 Route::controller(MovieController::class)->group(function () {
 	Route::get('/movies', 'index')->name('movie.get_movies');
+	Route::get('/movies/{movie}', 'get')->name('movie.get_single_movie');
 	Route::post('/movie', 'store')->name('movie.store_movie');
 });
 
