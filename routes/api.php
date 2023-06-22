@@ -27,40 +27,40 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 	return $request->user();
 });
 Route::controller(UserController::class)->group(function () {
-	Route::put('/update-user/{user}', 'update')->name('update.user');
+	Route::put('/update-user/{user}', 'update')->name('user.update');
 });
 Route::controller(AuthController::class)->group(function () {
-	Route::post('/register', 'register')->name('register.user');
-	Route::post('/login', 'login')->name('login.user');
-	Route::post('/logout', 'logout')->name('logout.user');
+	Route::post('/register', 'register')->name('user.register');
+	Route::post('/login', 'login')->name('user.login');
+	Route::post('/logout', 'logout')->name('user.logout');
 });
 Route::controller(GoogleAuthController::class)->group(function () {
-	Route::get('auth/redirect', 'redirect');
-	Route::get('auth/google/callback', 'callback');
+	Route::get('auth/redirect', 'redirect')->name('user.google_redirect');
+	Route::get('auth/google/callback', 'callback')->name('user.google_auth');
 });
 Route::controller(EmailVerificationController::class)->group(function () {
-	Route::get('/verify-email/{token}', 'verifyEmail');
-	Route::get('/password-update/{token}', 'passwordReset');
-	Route::post('/update-email/{token}', 'updateEmail');
+	Route::get('/verify-email/{token}', 'verifyEmail')->name('user.email_verify');
+	Route::get('/password-update/{token}', 'passwordReset')->name('user.password_update');
+	Route::post('/update-email/{token}', 'updateEmail')->name('user.email_update');
 });
 
 Route::controller(PasswordResetController::class)->group(function () {
-	Route::post('/forgot-password/{user}', 'send_reset_password_mail')->name('reset_password.email');
-	Route::put('/password-update/{token}', 'update')->name('password.reset')->name('password.update');
+	Route::post('/forgot-password/{user}', 'send_reset_password_mail')->name('user.password_change_request');
+	Route::put('/password-update/{token}', 'update')->name('password.reset')->name('user.password_update');
 });
 
 Route::controller(QuoteController::class)->group(function () {
-	Route::get('/quotes', 'index')->name('get.quotes');
-	Route::post('/add-quote', 'store')->name('add.quote');
+	Route::get('/quotes', 'index')->name('quote.get_quotes');
+	Route::post('/quote', 'store')->name('quote.store');
 });
 Route::controller(MovieController::class)->group(function () {
-	Route::get('/movies', 'index')->name('get.movies');
+	Route::get('/movies', 'index')->name('movie.get_movies');
 });
 
 Route::controller(LikeController::class)->group(function () {
-	Route::post('/addLike', 'create')->name('create.like');
-	Route::delete('/deleteLike/{like}', 'delete')->name('delete.like');
+	Route::post('/addLike', 'create')->name('like.create');
+	Route::delete('/deleteLike/{like}', 'delete')->name('like.delete');
 });
 Route::controller(CommentController::class)->group(function () {
-	Route::post('/add-comment', 'create')->name('create.comment');
+	Route::post('/comment', 'create')->name('comment.create');
 });
