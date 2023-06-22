@@ -2,18 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
-	public function update(Request $request, User $user)
+	public function update(UserUpdateRequest $request, User $user)
 	{
 		if ($request->hasFile('avatar')) {
+			if ($user->avatar) {
+				Storage::delete($user->avatar);
+			}
 			$avatar = $request->file('avatar');
-			$filename = $avatar->getClientOriginalName();
+			$filename = $user->id . $avatar->getClientOriginalName();
 			$avatar->storeAs('avatars', $filename, 'public');
 			$user = User::where('email', $request->email)->first();
 			$user->avatar = asset('storage/avatars/' . $filename);
@@ -23,11 +27,7 @@ class UserController extends Controller
 		} else {
 			$user->username = $request->username;
 			$email = $request->email;
-			if ($email !== $user->email && $request->has('email')) {
-				$new_email_user = User::where('email', $email)->first();
-				if ($new_email_user) {
-					return response()->json(['message'=>'email already used'], 401);
-				}
+			if ($email !== $user->email) {
 				$token = Str::random(40);
 				$user->verification_token = $token;
 				$user->save();
@@ -41,8 +41,7 @@ class UserController extends Controller
 				$user->password = $request->password;
 			}
 			$user->save();
+			return response()->json(['user'=>$user, 'message'=>'success'], 200);
 		}
-
-		return response()->json(['user'=>$user, 'message'=>'success'], 200);
 	}
 }
