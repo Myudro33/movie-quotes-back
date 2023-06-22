@@ -18,7 +18,7 @@ return new class extends Migration {
 			$table->string('image')->nullable();
 			$table->json('genre');
 			$table->json('description');
-			$table->string('director');
+			$table->json('director');
 			$table->timestamps();
 		});
 	}
