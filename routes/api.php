@@ -55,6 +55,7 @@ Route::controller(QuoteController::class)->group(function () {
 });
 Route::controller(MovieController::class)->group(function () {
 	Route::get('/movies', 'index')->name('movie.get_movies');
+	Route::post('/movie', 'store')->name('movie.store_movie');
 });
 
 Route::controller(LikeController::class)->group(function () {
