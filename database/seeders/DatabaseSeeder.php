@@ -14,11 +14,8 @@ class DatabaseSeeder extends Seeder
 	{
 		\App\Models\User::factory(5)->create([
 			'password'          => 'nikanika',
+			'username'          => 'nika',
 			'verification_token'=> null,
 		]);
-		// \App\Models\Movie::factory(10)->create();
-		// \App\Models\Quote::factory(10)->create();
-		// \App\Models\Comment::factory(10)->create();
-		// \App\Models\Like::factory(10)->create();
 	}
 }
