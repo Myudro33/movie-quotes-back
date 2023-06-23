@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\QuoteStoreRequest;
 use App\Http\Resources\QuotePostResource;
 use App\Http\Resources\QuoteResource;
 use App\Models\Quote;
-use Illuminate\Http\Request;
 
 class QuoteController extends Controller
 {
@@ -15,7 +15,7 @@ class QuoteController extends Controller
 		return response()->json(['quotes'=>QuoteResource::collection($quotes)], 200);
 	}
 
-	public function store(Request $request)
+	public function store(QuoteStoreRequest $request)
 	{
 		$image = $request->file('image');
 		$filename = $image->getClientOriginalName();
