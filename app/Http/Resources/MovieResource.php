@@ -21,7 +21,7 @@ class MovieResource extends JsonResource
 			'image'      => $this->image,
 			'genre'      => json_decode($this->genre),
 			'description'=> json_decode($this->description),
-			'director'   => $this->director,
+			'director'   => json_decode($this->director),
 			'quotes'     => MovieQuotesResource::collection($this->quotes),
 			'author'     => new UserResource($this->author),
 		];
