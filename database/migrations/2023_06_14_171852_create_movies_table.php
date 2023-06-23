@@ -12,7 +12,8 @@ return new class extends Migration {
 	{
 		Schema::create('movies', function (Blueprint $table) {
 			$table->id();
-			$table->foreignId('user_id');
+			$table->foreignId('user_id')->constrained('users')
+			->onDelete('cascade');
 			$table->json('name');
 			$table->integer('year');
 			$table->string('image')->nullable();
