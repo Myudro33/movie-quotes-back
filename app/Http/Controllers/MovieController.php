@@ -34,4 +34,10 @@ class MovieController extends Controller
 		]);
 		return response()->json(['message'=>'movie created', 'movie'=>$movie], 201);
 	}
+
+	public function delete(Movie $movie)
+	{
+		$movie->delete();
+		return response()->json(['message'=>'movie deleted', 'movie'=>$movie], 202);
+	}
 }
