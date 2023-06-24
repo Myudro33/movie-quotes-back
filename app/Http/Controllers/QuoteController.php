@@ -4,15 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\QuoteStoreRequest;
 use App\Http\Resources\QuotePostResource;
-use App\Http\Resources\QuoteResource;
+use App\Http\Resources\QuoteResourceCollection;
 use App\Models\Quote;
+use Illuminate\Http\Request;
 
 class QuoteController extends Controller
 {
-	public function index()
+	public function index(Request $request)
 	{
-		$quotes = Quote::with('comments', 'likes')->get();
-		return response()->json(['quotes'=>QuoteResource::collection($quotes)], 200);
+		$perPage = $request->input('perPage', 10); // Number of posts per page
+		$page = $request->input('page', 1); // Current page number
+		$quotes = Quote::with('comments')->paginate($perPage, ['*'], 'page', $page);
+		return response()->json(['quotes'=>new QuoteResourceCollection($quotes)], 200);
 	}
 
 	public function store(QuoteStoreRequest $request)
