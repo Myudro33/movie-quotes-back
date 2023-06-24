@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class UserController extends Controller
@@ -14,12 +14,14 @@ class UserController extends Controller
 	{
 		if ($request->hasFile('avatar')) {
 			if ($user->avatar) {
-				Storage::delete($user->avatar);
+				$avatarPath = public_path('storage/avatars/' . $user->avatar);
+				if (File::exists($avatarPath)) {
+					File::delete($avatarPath);
+				}
 			}
 			$avatar = $request->file('avatar');
-			$filename = $user->id . $avatar->getClientOriginalName();
-			$avatar->storeAs('avatars', $filename, 'public');
-			$user->avatar = asset('storage/avatars/' . $filename);
+			$avatarPath = $avatar->store('public/avatars');
+			$user->avatar = basename($avatarPath);
 			$user->save();
 			return response()->json(['avatar'=>$user->avatar], 200);
 		} else {
