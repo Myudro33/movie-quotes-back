@@ -35,6 +35,23 @@ class MovieController extends Controller
 		return response()->json(['message'=>'movie created', 'movie'=>$movie], 201);
 	}
 
+	public function update(MovieStoreRequest $request, Movie $movie)
+	{
+		$image = $request->file('image');
+		$filename = $image->getClientOriginalName();
+		$image->storeAs('images', $filename, 'public');
+		$movie->update([
+			'user_id'    => $request->user_id,
+			'name'       => $request->name,
+			'year'       => $request->year,
+			'image'      => asset('storage/images/' . $filename),
+			'genre'      => $request->genre,
+			'description'=> $request->description,
+			'director'   => $request->director,
+		]);
+		return response()->json(['message'=>'movie updated', 'movie'=>$movie], 201);
+	}
+
 	public function delete(Movie $movie)
 	{
 		$movie->delete();

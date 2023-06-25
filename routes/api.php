@@ -57,6 +57,7 @@ Route::controller(MovieController::class)->group(function () {
 	Route::get('/movies', 'index')->name('movie.get_movies');
 	Route::get('/movies/{movie}', 'get')->name('movie.get_single_movie');
 	Route::post('/movie', 'store')->name('movie.store_movie');
+	Route::post('/movieUpdate/{movie}', 'update')->name('movie.update');
 	Route::delete('/deleteMovie/{movie}', 'delete')->name('movie.delete');
 });
 
