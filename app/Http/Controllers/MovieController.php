@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\MovieStoreRequest;
 use App\Http\Requests\MovieUpdateRequest;
 use App\Http\Resources\MovieResource;
+use App\Models\Genre;
 use App\Models\Movie;
+use Illuminate\Support\Facades\File;
 
 class MovieController extends Controller
 {
@@ -14,55 +16,48 @@ class MovieController extends Controller
 		return MovieResource::collection(Movie::all());
 	}
 
-	public function get(Movie $movie)
+	public function show(Movie $movie)
 	{
 		return response()->json(['message'=>'success', 'movie'=>new MovieResource($movie)], 200);
 	}
 
 	public function store(MovieStoreRequest $request)
 	{
-		$image = $request->file('image');
-		$filename = $image->getClientOriginalName();
-		$image->storeAs('images', $filename, 'public');
+		$request->validate(['image'=>'image|mimes:png,jpg']);
+		$imagePath = $request->file('image')->store('public/images');
 		$movie = Movie::create([
-			'user_id'    => $request->user_id,
-			'name'       => $request->name,
-			'year'       => $request->year,
-			'image'      => asset('storage/images/' . $filename),
-			'genre'      => $request->genre,
-			'description'=> $request->description,
-			'director'   => $request->director,
+			'image'=> basename($imagePath), ...$request->validated(),
 		]);
-		return response()->json(['message'=>'movie created', 'movie'=>$movie], 201);
+		$genreData = json_decode($request->genre, true);
+		$genreIds = array_column($genreData, 'id');
+		$genres = Genre::whereIn('id', $genreIds)->get();
+		$movie->genres()->attach($genres);
+		return response()->json(['message'=>'movie created', 'movie'=>new MovieResource($movie)], 201);
 	}
 
 	public function update(MovieUpdateRequest $request, Movie $movie)
 	{
 		if ($request->hasFile('image')) {
-			$image = $request->file('image');
-			$filename = $image->getClientOriginalName();
-			$image->storeAs('images', $filename, 'public');
-			$movie->update([
-				'user_id'    => $request->user_id,
-				'name'       => $request->name,
-				'year'       => $request->year,
-				'image'      => asset('storage/images/' . $filename),
-				'genre'      => $request->genre,
-				'description'=> $request->description,
-				'director'   => $request->director,
-			]);
-			return response()->json(['message'=>'movie updated', 'movie'=>new MovieResource($movie)], 201);
+			$request->validate(['image'=>'image|mimes:png,jpg']);
+			$imagePath = public_path('storage/images/' . $movie->image);
+			if (File::exists($imagePath)) {
+				File::delete($imagePath);
+			}
+			$imagePath = $request->file('image')->store('public/images');
+			$movie->update(
+				[
+					'image'      => basename($imagePath),
+					...$request->validated(),
+				]
+			);
 		} else {
-			$movie->update([
-				'user_id'    => $request->user_id,
-				'name'       => $request->name,
-				'year'       => $request->year,
-				'genre'      => $request->genre,
-				'description'=> $request->description,
-				'director'   => $request->director,
-			]);
-			return response()->json(['message'=>'movie updated', 'movie'=>new MovieResource($movie)], 201);
+			$movie->update($request->validated());
 		}
+		$genreData = json_decode($request->genre, true);
+		$genreIds = array_column($genreData, 'id');
+		$genres = Genre::whereIn('id', $genreIds)->get();
+		$movie->genres()->detach($genres);
+		return response()->json(['message'=>'movie updated', 'movie'=>new MovieResource($movie)], 201);
 	}
 
 	public function delete(Movie $movie)

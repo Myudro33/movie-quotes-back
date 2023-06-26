@@ -10,15 +10,9 @@ return new class extends Migration {
 	 */
 	public function up(): void
 	{
-		Schema::create('movies', function (Blueprint $table) {
+		Schema::create('genres', function (Blueprint $table) {
 			$table->id();
-			$table->foreignId('user_id')->constrained('users')
-			->onDelete('cascade');
-			$table->json('name');
-			$table->smallInteger('year');
-			$table->string('image');
-			$table->json('description');
-			$table->json('director');
+			$table->string('name');
 			$table->timestamps();
 		});
 	}
@@ -28,6 +22,6 @@ return new class extends Migration {
 	 */
 	public function down(): void
 	{
-		Schema::dropIfExists('movies');
+		Schema::dropIfExists('genres');
 	}
 };
