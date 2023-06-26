@@ -18,7 +18,7 @@ class MovieUpdateRequest extends FormRequest
 
 	public function rules()
 	{
-		$rules = [
+		return [
 			'user_id'    => 'required|numeric',
 			'name'       => 'required|json',
 			'year'       => 'required|numeric',
@@ -26,9 +26,5 @@ class MovieUpdateRequest extends FormRequest
 			'description'=> 'required|json',
 			'director'   => 'required|json',
 		];
-		if (!empty($this->avatar)) {
-			$rules['image'] = 'image|mimes:jpg,png';
-		}
-		return $rules;
 	}
 }

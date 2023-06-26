@@ -24,7 +24,6 @@ class QuoteStoreRequest extends FormRequest
 			'movie_id'   => 'required|numeric',
 			'user_id'    => 'required|numeric',
 			'title'      => 'required|json',
-			'image'      => 'image|mimes:jpg,png',
 		];
 	}
 }

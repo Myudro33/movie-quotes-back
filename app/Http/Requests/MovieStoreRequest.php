@@ -24,7 +24,6 @@ class MovieStoreRequest extends FormRequest
 			'user_id'    => 'required|numeric',
 			'name'       => 'required|json',
 			'year'       => 'required|numeric',
-			'image'      => 'image|mimes:jpg,png',
 			'genre'      => 'required|json',
 			'description'=> 'required|json',
 			'director'   => 'required|json',
