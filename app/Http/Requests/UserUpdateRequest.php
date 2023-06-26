@@ -20,18 +20,10 @@ class UserUpdateRequest extends FormRequest
 
 	public function rules(): array
 	{
-		$rules = [
+		return [
 			'username'=> 'min:3|max:15|lowercase',
+			'email'   => 'nullable|email',
+			'password'=> 'nullable|min:8|max:15|lowercase',
 		];
-		if (!empty($this->email)) {
-			$rules['email'] = 'email';
-		}
-		if (!empty($this->password)) {
-			$rules['password'] = 'min:8|max:15|lowercase';
-		}
-		if (!empty($this->avatar)) {
-			$rules['avatar'] = 'image|mimes:jpg,png';
-		}
-		return $rules;
 	}
 }
