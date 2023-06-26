@@ -21,7 +21,7 @@ class QuoteController extends Controller
 			->where('title->en', 'LIKE', "%$quote%")
 			->orWhere('title->ka', 'LIKE', "%$quote%")
 			->get();
-			return response()->json(['message'=>'success', 'quotes'=>QuoteResource::collection($quotes)], 200);
+			return response()->json(['message'=>'success', 'quotes'=>QuoteResource::collection($quote)], 200);
 		} elseif (strpos($query, '@') === 0) {
 			$quote = substr($query, 1);
 			$post = Movie::query()
@@ -42,14 +42,12 @@ class QuoteController extends Controller
 
 	public function store(QuoteStoreRequest $request)
 	{
-		$image = $request->file('image');
-		$filename = $image->getClientOriginalName();
-		$image->storeAs('images', $filename, 'public');
+		$request->validate(['image'=>'image|mimes:png,jpg']);
+		$imagePath = $request->file('image')->store('public/images');
+
 		$quote = Quote::create([
-			'movie_id'=> $request->movie_id,
-			'user_id' => $request->user_id,
-			'title'   => $request->title,
-			'image'   => asset('storage/images/' . $filename),
+			'image'   => basename($imagePath),
+			...$request->validated(),
 		]);
 		return response()->json(['message'=>'quote created', 'quote'=>new QuotePostResource($quote)], 201);
 	}
