@@ -20,6 +20,6 @@ class LikeController extends Controller
 	public function delete(Like $like)
 	{
 		$like->delete();
-		return response()->json(['message'=>'like deleted', 'like'=>new LikeResource($like)], 202);
+		return response()->json(['message'=>'like deleted'], 202);
 	}
 }
