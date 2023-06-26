@@ -17,5 +17,6 @@ class DatabaseSeeder extends Seeder
 			'username'          => 'nika',
 			'verification_token'=> null,
 		]);
+		$this->call(GenreSeeder::class);
 	}
 }
