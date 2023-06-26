@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PasswordUpdateRequest;
 use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 
 class PasswordResetController extends Controller
 {
-	public function send_reset_password_mail(User $user)
+	public function send_reset_password_mail(User $user): JsonResponse
 	{
 		$token = Password::createToken($user);
 		Mail::send('emails.reset_password', ['token' => $token], function ($message) use ($user) {
@@ -20,7 +21,7 @@ class PasswordResetController extends Controller
 		return response()->json(['message'=>'email sent successfully'], 200);
 	}
 
-	public function update(PasswordUpdateRequest $request)
+	public function update(PasswordUpdateRequest $request): JsonResponse
 	{
 		$status = Password::reset(
 			$request->validated(),

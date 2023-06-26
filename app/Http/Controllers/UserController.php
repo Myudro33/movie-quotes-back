@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
-	public function update(UserUpdateRequest $request, User $user)
+	public function update(UserUpdateRequest $request, User $user): JsonResponse
 	{
 		if ($request->hasFile('avatar')) {
 			$request->validate(['avatar'=>'image|mimes:png,jpg']);

@@ -3,18 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 
 class GoogleAuthController extends Controller
 {
-	public function redirect()
+	public function redirect(): JsonResponse
 	{
 		$url = Socialite::driver('google')->stateless()->redirect()->getTargetUrl();
 		return response()->json(['message'=>'success', 'url'=>$url], 200);
 	}
 
-	public function callback()
+	public function callback(): JsonResponse
 	{
 		$google_user = Socialite::driver('google')->stateless()->user();
 		$user = User::where('google_id', $google_user->getId())->first();
@@ -27,6 +28,6 @@ class GoogleAuthController extends Controller
 			]);
 		}
 		Auth::login($user);
-		return response(['message'=>'success', 'user'=>$user], 200);
+		return response()->json(['message'=>'success', 'user'=>$user], 200);
 	}
 }

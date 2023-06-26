@@ -9,6 +9,7 @@ use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EmailVerificationController;
+use App\Http\Controllers\GenreController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -55,16 +56,20 @@ Route::controller(QuoteController::class)->group(function () {
 });
 Route::controller(MovieController::class)->group(function () {
 	Route::get('/movies', 'index')->name('movie.get_movies');
-	Route::get('/movies/{movie}', 'get')->name('movie.get_single_movie');
+	Route::get('/movies/{movie}', 'show')->name('movie.get_single_movie');
 	Route::post('/movie', 'store')->name('movie.store_movie');
-	Route::post('/movieUpdate/{movie}', 'update')->name('movie.update');
-	Route::delete('/deleteMovie/{movie}', 'delete')->name('movie.delete');
+	Route::post('/movie-update/{movie}', 'update')->name('movie.update_movie');
+	Route::delete('/delete-movie/{movie}', 'delete')->name('movie.delete_movie');
 });
 
 Route::controller(LikeController::class)->group(function () {
-	Route::post('/addLike', 'create')->name('like.create');
-	Route::delete('/deleteLike/{like}', 'delete')->name('like.delete');
+	Route::post('/add-like', 'create')->name('like.create_like');
+	Route::delete('/delete-like/{like}', 'delete')->name('like.delete_like');
 });
 Route::controller(CommentController::class)->group(function () {
 	Route::post('/comment', 'create')->name('comment.create');
+});
+
+Route::controller(GenreController::class)->group(function () {
+	Route::get('/genres', 'index')->name('genre.get_genres');
 });

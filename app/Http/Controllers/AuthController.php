@@ -6,12 +6,13 @@ use App\Http\Requests\UserLoginRequest;
 use App\Http\Requests\UserRegisterRequest;
 use App\Mail\VerifyUser;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
-	public function register(UserRegisterRequest $request)
+	public function register(UserRegisterRequest $request): JsonResponse
 	{
 		$user = User::create($request->validated());
 		Mail::to($user->email)
@@ -19,7 +20,7 @@ class AuthController extends Controller
 		return response()->json(['user'=>$user, 'message'=>'user created successfully'], 201);
 	}
 
-	public function login(UserLoginRequest $request)
+	public function login(UserLoginRequest $request): JsonResponse
 	{
 		$user = User::where('email', $request->validated('username'))
 		->orWhere('username', $request->validated('username'))
@@ -34,7 +35,7 @@ class AuthController extends Controller
 		return response()->json(['message' => __('login.wrong_username_or_password')], 401);
 	}
 
-	public function logout()
+	public function logout(): JsonResponse
 	{
 		Auth::guard('web')->logout();
 

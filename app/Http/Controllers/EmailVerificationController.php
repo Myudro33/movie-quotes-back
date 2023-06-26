@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\EmailUpdateRequest;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class EmailVerificationController extends Controller
 {
-	public function verifyEmail($token)
+	public function verifyEmail($token): JsonResponse
 	{
 		$user = User::where('verification_token', $token)->firstOrFail();
 		$user->email_verified_at = now();
@@ -18,7 +19,7 @@ class EmailVerificationController extends Controller
 		return response()->json(['stage'=>'verified'], 200);
 	}
 
-	public function passwordReset($token)
+	public function passwordReset($token): JsonResponse
 	{
 		$plainTextToken = $token;
 		$passwordResetTokens = DB::table('password_reset_tokens')->get();
@@ -31,7 +32,7 @@ class EmailVerificationController extends Controller
 		}
 	}
 
-	public function updateEmail(EmailUpdateRequest $request, $token)
+	public function updateEmail(EmailUpdateRequest $request, $token): JsonResponse
 	{
 		$user = User::where('verification_token', $token)->first();
 		$user->email = $request->new_email;

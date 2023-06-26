@@ -8,11 +8,12 @@ use App\Http\Resources\QuoteResource;
 use App\Http\Resources\QuoteResourceCollection;
 use App\Models\Movie;
 use App\Models\Quote;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class QuoteController extends Controller
 {
-	public function index(Request $request)
+	public function index(Request $request): JsonResponse
 	{
 		$query = $request->query('query');
 		if (strpos($query, '#') === 0) {
@@ -40,7 +41,7 @@ class QuoteController extends Controller
 		}
 	}
 
-	public function store(QuoteStoreRequest $request)
+	public function store(QuoteStoreRequest $request): JsonResponse
 	{
 		$request->validate(['image'=>'image|mimes:png,jpg']);
 		$imagePath = $request->file('image')->store('public/images');
