@@ -12,9 +12,10 @@ class QuoteController extends Controller
 {
 	public function index(Request $request)
 	{
-		$perPage = $request->input('perPage', 10); // Number of posts per page
-		$page = $request->input('page', 1); // Current page number
-		$quotes = Quote::with('comments')->paginate($perPage, ['*'], 'page', $page);
+		$perPage = $request->input('perPage', 10);
+		$page = $request->input('page', 1);
+		$quotes = Quote::with('comments')
+		->orderBy('created_at', 'desc')->paginate($perPage, ['*'], 'page', $page);
 		return response()->json(['quotes'=>new QuoteResourceCollection($quotes)], 200);
 	}
 
