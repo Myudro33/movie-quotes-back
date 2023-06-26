@@ -51,6 +51,7 @@ Route::controller(PasswordResetController::class)->group(function () {
 
 Route::controller(QuoteController::class)->group(function () {
 	Route::get('/quotes', 'index')->name('quote.get_quotes');
+	Route::get('/searchQuotes', 'filter')->name('quote.search');
 	Route::post('/quote', 'store')->name('quote.store');
 });
 Route::controller(MovieController::class)->group(function () {

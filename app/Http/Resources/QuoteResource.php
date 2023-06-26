@@ -20,9 +20,8 @@ class QuoteResource extends JsonResource
 			'image'     => $this->image,
 			'user'      => new UserResource($this->author),
 			'movie'     => new MovieResource($this->movie),
-			'comments'  => CommentResource::collection($this->whenLoaded('comments')),
+			'comments'  => CommentResource::collection($this->comments),
 			'likes'     => LikeResource::collection($this->likes),
-			'created_at'=> $this->created_at,
 		];
 	}
 }
