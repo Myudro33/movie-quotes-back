@@ -51,7 +51,7 @@ class MovieController extends Controller
 				'description'=> $request->description,
 				'director'   => $request->director,
 			]);
-			return response()->json(['message'=>'movie updated', 'movie'=>$movie], 201);
+			return response()->json(['message'=>'movie updated', 'movie'=>new MovieResource($movie)], 201);
 		} else {
 			$movie->update([
 				'user_id'    => $request->user_id,
@@ -61,7 +61,7 @@ class MovieController extends Controller
 				'description'=> $request->description,
 				'director'   => $request->director,
 			]);
-			return response()->json(['message'=>'movie updated', 'movie'=>$movie], 201);
+			return response()->json(['message'=>'movie updated', 'movie'=>new MovieResource($movie)], 201);
 		}
 	}
 
