@@ -13,6 +13,7 @@ class UserController extends Controller
 	public function update(UserUpdateRequest $request, User $user)
 	{
 		if ($request->hasFile('avatar')) {
+			$request->validate(['avatar'=>'image|mimes:png,jpg']);
 			if ($user->avatar) {
 				$avatarPath = public_path('storage/avatars/' . $user->avatar);
 				if (File::exists($avatarPath)) {
