@@ -14,8 +14,9 @@ class AuthController extends Controller
 {
 	public function register(UserRegisterRequest $request): JsonResponse
 	{
+		$query = $request->query('locale');
 		$user = User::create($request->validated());
-		Mail::to($user->email)
+		Mail::to($user->email)->locale($query)
 			->send(new VerifyUser($user));
 		return response()->json(['user'=>$user, 'message'=>'user created successfully'], 201);
 	}

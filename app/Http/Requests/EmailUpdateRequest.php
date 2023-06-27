@@ -21,7 +21,7 @@ class EmailUpdateRequest extends FormRequest
 	public function rules(): array
 	{
 		return [
-			'new_email'=> 'required|email|unique:user,email',
+			'new_email'=> 'required|email|unique:users,email',
 		];
 	}
 }

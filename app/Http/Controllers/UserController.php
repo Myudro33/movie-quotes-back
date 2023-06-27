@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserUpdateRequest;
+use App\Mail\UpdateEmail;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\File;
@@ -13,6 +14,7 @@ class UserController extends Controller
 {
 	public function update(UserUpdateRequest $request, User $user): JsonResponse
 	{
+		$query = $request->query('locale');
 		if ($request->hasFile('avatar')) {
 			$request->validate(['avatar'=>'image|mimes:png,jpg']);
 			if ($user->avatar) {
@@ -35,10 +37,7 @@ class UserController extends Controller
 				$token = Str::random(40);
 				$user->verification_token = $token;
 				$user->save();
-				Mail::send('emails.email-update', ['token'=>$token, 'email' => $user->email, 'new_email'=>$email], function ($message) use ($user) {
-					$message->to($user->email);
-					$message->subject('Email Update');
-				});
+				Mail::to($user->email)->locale($query)->send(new UpdateEmail($token, $user->email, $email));
 				return response()->json(['email'=>$user->email, 'new_email'=>$email, 'message'=>'email sent successfully'], 200);
 			}
 			if ($request->has('password')) {
