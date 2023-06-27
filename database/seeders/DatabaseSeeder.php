@@ -14,7 +14,6 @@ class DatabaseSeeder extends Seeder
 	{
 		\App\Models\User::factory(5)->create([
 			'password'          => 'nikanika',
-			'username'          => 'nika',
 			'verification_token'=> null,
 		]);
 		$this->call(GenreSeeder::class);
