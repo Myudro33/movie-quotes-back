@@ -23,6 +23,7 @@ class QuoteStoreRequest extends FormRequest
 		return [
 			'movie_id'   => 'required|numeric',
 			'user_id'    => 'required|numeric',
+			'image'      => 'required|image|mimes:png,jpg',
 			'title'      => 'required|json',
 		];
 	}

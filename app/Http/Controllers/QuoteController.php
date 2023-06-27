@@ -22,7 +22,7 @@ class QuoteController extends Controller
 			->where('title->en', 'LIKE', "%$quote%")
 			->orWhere('title->ka', 'LIKE', "%$quote%")
 			->get();
-			return response()->json(['message'=>'success', 'quotes'=>QuoteResource::collection($quote)], 200);
+			return response()->json(['message'=>'success', 'quotes'=>QuoteResource::collection($quotes)], 200);
 		} elseif (strpos($query, '@') === 0) {
 			$quote = substr($query, 1);
 			$post = Movie::query()
@@ -30,7 +30,7 @@ class QuoteController extends Controller
 			->orWhere('name->ka', 'LIKE', "%$quote%")
 			->with('quotes')
 			->get();
-			$quotes = $post->pluck('quotes')->unique()->values();
+			$quotes = $post->pluck('quotes');
 			return response()->json(['message'=>'success', 'quotes'=>QuoteResource::collection($quotes[0])], 200);
 		} else {
 			$perPage = $request->input('perPage', 10);
@@ -43,7 +43,6 @@ class QuoteController extends Controller
 
 	public function store(QuoteStoreRequest $request): JsonResponse
 	{
-		$request->validate(['image'=>'image|mimes:png,jpg']);
 		$imagePath = $request->file('image')->store('public/images');
 
 		$quote = Quote::create([
