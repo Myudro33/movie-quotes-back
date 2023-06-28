@@ -28,7 +28,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 	return $request->user();
 });
 Route::controller(UserController::class)->group(function () {
-	Route::post('/update-user/{user}', 'update')->name('user.update_user');
+	Route::post('/update-user/{user}', 'update')->name('users.update');
 });
 Route::controller(AuthController::class)->group(function () {
 	Route::post('/register', 'register')->name('user.register');
@@ -50,25 +50,25 @@ Route::controller(PasswordResetController::class)->group(function () {
 });
 
 Route::controller(QuoteController::class)->group(function () {
-	Route::get('/quotes', 'index')->name('quote.get_quotes');
-	Route::post('/quote', 'store')->name('quote.store');
+	Route::get('/quotes', 'index')->name('quotes.get');
+	Route::post('/quote', 'store')->name('quotes.store');
 });
 Route::controller(MovieController::class)->group(function () {
-	Route::get('/movies', 'index')->name('movie.get_movies');
-	Route::get('/movies/{movie}', 'show')->name('movie.get_single_movie');
-	Route::post('/movie', 'store')->name('movie.store_movie');
-	Route::post('/movie-update/{movie}', 'update')->name('movie.update_movie');
-	Route::delete('/delete-movie/{movie}', 'delete')->name('movie.delete_movie');
+	Route::get('/movies', 'index')->name('movies.index');
+	Route::get('/movies/{movie}', 'show')->name('movies.get');
+	Route::post('/movies', 'store')->name('movies.store');
+	Route::post('/movie-update/{movie}', 'update')->name('movies.update');
+	Route::delete('/delete-movie/{movie}', 'delete')->name('movies.destroy');
 });
 
 Route::controller(LikeController::class)->group(function () {
-	Route::post('/add-like', 'create')->name('like.create_like');
-	Route::delete('/delete-like/{like}', 'delete')->name('like.delete_like');
+	Route::post('/likes', 'create')->name('likes.store');
+	Route::delete('/likes/{like}', 'delete')->name('likes.delete');
 });
 Route::controller(CommentController::class)->group(function () {
-	Route::post('/comment', 'create')->name('comment.create');
+	Route::post('/comments', 'create')->name('comments.store');
 });
 
 Route::controller(GenreController::class)->group(function () {
-	Route::get('/genres', 'index')->name('genre.get_genres');
+	Route::get('/genres', 'index')->name('genres.get');
 });

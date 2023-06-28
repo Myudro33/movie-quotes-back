@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PasswordForgotRequest;
 use App\Http\Requests\PasswordUpdateRequest;
 use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 
 class PasswordResetController extends Controller
 {
-	public function send_reset_password_mail(Request $request): JsonResponse
+	public function send_reset_password_mail(PasswordForgotRequest $request): JsonResponse
 	{
 		$status = Password::sendResetLink(
 			$request->only('email')
