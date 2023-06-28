@@ -3,34 +3,35 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PasswordUpdateRequest;
-use App\Mail\ResetPassword;
 use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
 
 class PasswordResetController extends Controller
 {
-	public function send_reset_password_mail(Request $request, User $user): JsonResponse
+	public function send_reset_password_mail(Request $request): JsonResponse
 	{
-		$token = Password::createToken($user);
-		$query = $request->query('locale');
-		Mail::to($user->email)->locale($query)->send(new ResetPassword($user, $token));
-		return response()->json(['message'=>'email sent successfully'], 200);
+		$status = Password::sendResetLink(
+			$request->only('email')
+		);
+		return $status === Password::RESET_LINK_SENT ? response()->json(['message'=>'email sent successfully'], 200) :
+		response()->json(['message'=>'error'], 404);
 	}
 
 	public function update(PasswordUpdateRequest $request): JsonResponse
 	{
 		$status = Password::reset(
-			$request->validated(),
+			$request->only('email', 'password', 'password_confirmation', 'token'),
 			function (User $user, string $password) {
 				$user->forceFill([
 					'password' => $password,
-				]);
-				$user->verification_token = null;
+				])->setRememberToken(Str::random(60));
+
 				$user->save();
+
 				event(new PasswordReset($user));
 			}
 		);

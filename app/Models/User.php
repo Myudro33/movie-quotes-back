@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Notifications\CustomPasswordResetNotification;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -52,6 +53,14 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 	{
 		$this->attributes['password'] = Hash::make($value);
 		$this->attributes['verification_token'] = Str::random(40);
+	}
+
+	public function sendPasswordResetNotification($token): void
+	{
+		$url = env('FRONTEND_URL') . '/' . $token . '?user=' . $this->getEmailForPasswordReset($token) . '&email=reset-password';
+
+		$notification = new CustomPasswordResetNotification($url);
+		$this->notify($notification);
 	}
 
 	public function getRouteKeyName()

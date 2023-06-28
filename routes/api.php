@@ -41,12 +41,11 @@ Route::controller(GoogleAuthController::class)->group(function () {
 });
 Route::controller(EmailVerificationController::class)->group(function () {
 	Route::get('/verify-email/{token}', 'verifyEmail')->name('user.email_verify');
-	Route::get('/password-update/{token}', 'passwordReset')->name('user.password_update');
 	Route::post('/update-email/{token}', 'updateEmail')->name('user.email_update');
 });
 
 Route::controller(PasswordResetController::class)->group(function () {
-	Route::post('/forgot-password/{user}', 'send_reset_password_mail')->name('user.password_change_request');
+	Route::post('/forgot-password', 'send_reset_password_mail')->name('user.password_change_request');
 	Route::put('/password-update/{token}', 'update')->name('password.reset')->name('user.password_update');
 });
 

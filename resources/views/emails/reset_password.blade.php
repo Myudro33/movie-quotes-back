@@ -14,12 +14,12 @@
         </div>
         <div style="text-align:start; margin-top:50px; margin-left: 5%;">
             <p style="font-family: sans-serif; sans-serif; font-size: 16px; color:white">{{__('email.email_password_update_heading')}}</p> 
-            <a href="{{env('FRONTEND_URL')}}/{{ $token }}?email=reset-password"
+            <a href="{{ $url }}"
                 >
                 <button style="cursor: pointer; font-family: sans-serif; margin-top: 10px;  text-align:center; background-color:#E31221; border-radius:8px; border:none; color:white;padding: 15px; height:50px; font-size: 16px; text-decoration:none;" >{{__('email.password_update_button')}}</button> 
             </a> 
             <p style="color:white; font-size:16px; font-family:sans-serif; margin-top:30px;">{{__('email.email_paragraph')}}</p>
-            <a style="display:inline; width: 100%; white-space:normal"href="{{env('FRONTEND_URL')}}/{{ $token }}?email=reset-password" > <p style="white-space:unset; color: #DDCCAA ; text-decoration: none; text-align:left;  padding-top:20px">{{env('FRONTEND_URL')}}/{{ $token }}?email=reset-password"</p> </a>
+            <a style="display:inline; width: 100%; white-space:normal"href="{{ $url }}" > <p style="white-space:unset; color: #DDCCAA ; text-decoration: none; text-align:left;  padding-top:20px">{{ $url }}</p> </a>
             <p style="color:white; font-size:16px; font-family:sans-serif">{{__('email.email_problem')}}</p>
             <p style="color:white; font-size:16px; font-family:sans-serif">{{__('email.crew')}}</p>
         </div>
