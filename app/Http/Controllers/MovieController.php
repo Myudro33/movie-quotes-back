@@ -61,7 +61,7 @@ class MovieController extends Controller
 		return response()->json(['message'=>'movie updated', 'movie'=>new MovieResource($movie)], 201);
 	}
 
-	public function delete(Movie $movie): JsonResponse
+	public function destroy(Movie $movie): JsonResponse
 	{
 		$movie->delete();
 		return response()->json(['message'=>'movie deleted', 'movie'=>$movie], 202);

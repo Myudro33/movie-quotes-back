@@ -58,12 +58,12 @@ Route::controller(MovieController::class)->group(function () {
 	Route::get('/movies/{movie}', 'show')->name('movies.get');
 	Route::post('/movies', 'store')->name('movies.store');
 	Route::post('/movie-update/{movie}', 'update')->name('movies.update');
-	Route::delete('/delete-movie/{movie}', 'delete')->name('movies.destroy');
+	Route::delete('/delete-movie/{movie}', 'destroy')->name('movies.destroy');
 });
 
 Route::controller(LikeController::class)->group(function () {
 	Route::post('/likes', 'create')->name('likes.store');
-	Route::delete('/likes/{like}', 'delete')->name('likes.delete');
+	Route::delete('/likes/{like}', 'destroy')->name('likes.destroy');
 });
 Route::controller(CommentController::class)->group(function () {
 	Route::post('/comments', 'create')->name('comments.store');
