@@ -57,8 +57,8 @@ Route::controller(MovieController::class)->group(function () {
 	Route::get('/movies', 'index')->name('movies.index');
 	Route::get('/movies/{movie}', 'show')->name('movies.get');
 	Route::post('/movies', 'store')->name('movies.store');
-	Route::post('/movie-update/{movie}', 'update')->name('movies.update');
-	Route::delete('/delete-movie/{movie}', 'destroy')->name('movies.destroy');
+	Route::post('/movies/{movie}', 'update')->name('movies.update');
+	Route::delete('/movies/{movie}', 'destroy')->name('movies.destroy');
 });
 
 Route::controller(LikeController::class)->group(function () {
