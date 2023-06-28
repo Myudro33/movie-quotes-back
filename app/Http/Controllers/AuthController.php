@@ -29,8 +29,6 @@ class AuthController extends Controller
 		if ($user) {
 			if (Auth::attempt(['username' => $user->username, 'password' => $request->validated('password')], (bool) $request->has('remember'))) {
 				return response()->json(['message'=>'success', 'user'=>$user], 200);
-			} elseif (Auth::attempt(['email' => $user->email, 'password' => $request->validated('password')], (bool) $request->has('remember'))) {
-				return response()->json(['message'=>'success', 'user'=>$user], 200);
 			}
 		}
 		return response()->json(['message' => __('login.wrong_username_or_password')], 401);
