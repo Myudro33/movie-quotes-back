@@ -3,8 +3,9 @@
 namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
-use App\Models\User;
-use Illuminate\Auth\Notifications\ResetPassword;
+
+use App\Models\Quote;
+use App\Policies\QuotePolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -15,6 +16,7 @@ class AuthServiceProvider extends ServiceProvider
 	 * @var array<class-string, class-string>
 	 */
 	protected $policies = [
+		Quote::class=> QuotePolicy::class,
 	];
 
 	/**
@@ -22,8 +24,5 @@ class AuthServiceProvider extends ServiceProvider
 	 */
 	public function boot(): void
 	{
-		ResetPassword::createUrlUsing(function (User $user, string $token) {
-			return env('FRONTEND_URL') . '/' . $token;
-		});
 	}
 }
