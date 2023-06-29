@@ -21,7 +21,7 @@ class MovieQuotesResource extends JsonResource
 			'title'   => json_decode($this->title),
 			'image'   => $this->image,
 			'likes'   => LikeResource::collection($this->likes),
-			'comments'=> $this->comments,
+			'comments'=> CommentResource::collection($this->comments),
 		];
 	}
 }
