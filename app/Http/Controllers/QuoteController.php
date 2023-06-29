@@ -47,11 +47,10 @@ class QuoteController extends Controller
 
 	public function store(QuoteStoreRequest $request): JsonResponse
 	{
+		$request->validate(['image'=>'image|mimes:png,jpg']);
 		$imagePath = $request->file('image')->store('public/images');
-
 		$quote = Quote::create([
-			'image'   => basename($imagePath),
-			...$request->validated(),
+			'image'=> basename($imagePath), ...$request->validated(),
 		]);
 		return response()->json(['message'=>'quote created', 'quote'=>new QuotePostResource($quote)], 201);
 	}
