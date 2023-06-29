@@ -8,12 +8,18 @@ use App\Http\Resources\MovieResource;
 use App\Models\Genre;
 use App\Models\Movie;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
 class MovieController extends Controller
 {
-	public function index(): JsonResponse
+	public function index(Request $request): JsonResponse
 	{
+		$query = $request->query('query');
+		if ($query) {
+			$movies = Movie::filterByName($query)->with('quotes')->get();
+			return response()->json(['movies'=>MovieResource::collection($movies)]);
+		}
 		return response()->json(['message'=>'success', 'movies'=>MovieResource::collection(Movie::all())]);
 	}
 
