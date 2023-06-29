@@ -22,20 +22,13 @@ class QuoteController extends Controller
 		$query = $request->query('query');
 		if (strpos($query, '#') === 0) {
 			$quote = substr($query, 1);
-			$quotes = Quote::query()
-			->where('title->en', 'LIKE', "%$quote%")
-			->orWhere('title->ka', 'LIKE', "%$quote%")
-			->get();
-			return response()->json(['message'=>'success', 'quotes'=>QuoteResource::collection($quotes)], 200);
+			$quotes = Quote::filterByTitle($quote)->get();
+			return response()->json(['message' => 'success', 'quotes' => QuoteResource::collection($quotes)], 200);
 		} elseif (strpos($query, '@') === 0) {
 			$quote = substr($query, 1);
-			$post = Movie::query()
-			->where('name->en', 'LIKE', "%$quote%")
-			->orWhere('name->ka', 'LIKE', "%$quote%")
-			->with('quotes')
-			->get();
-			$quotes = $post->pluck('quotes');
-			return response()->json(['message'=>'success', 'quotes'=>QuoteResource::collection($quotes[0])], 200);
+			$posts = Movie::filterByName($quote)->with('quotes')->get();
+			$quotes = $posts->pluck('quotes');
+			return response()->json(['message' => 'success', 'quotes' => QuoteResource::collection($quotes[0])], 200);
 		} else {
 			$perPage = $request->input('perPage', 10);
 			$page = $request->input('page', 1);
