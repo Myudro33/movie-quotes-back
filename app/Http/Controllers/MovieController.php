@@ -57,7 +57,8 @@ class MovieController extends Controller
 		$genreData = json_decode($request->genre, true);
 		$genreIds = array_column($genreData, 'id');
 		$genres = Genre::whereIn('id', $genreIds)->get();
-		$movie->genres()->detach($genres);
+		$movie->genres()->detach();
+		$movie->genres()->attach($genres);
 		return response()->json(['message'=>'movie updated', 'movie'=>new MovieResource($movie)], 201);
 	}
 
