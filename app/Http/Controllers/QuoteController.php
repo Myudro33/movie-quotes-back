@@ -77,7 +77,17 @@ class QuoteController extends Controller
 			}
 			return response()->json(['message'=>'success', 'quote'=>new MovieQuotesResource($quote)]);
 		} else {
-			return response()->json(['error'=>'You can"t update this quote.'], 403);
+			return response()->json(['error'=>"You can't update this quote."], 403);
+		}
+	}
+
+	public function destroy(Quote $quote): JsonResponse
+	{
+		if (Gate::allows('delete', $quote)) {
+			$quote->delete();
+			return response()->json(['message'=>'Quote deleted'], 204);
+		} else {
+			return response()->json(['error'=>"You can't delete this quote."], 403);
 		}
 	}
 }

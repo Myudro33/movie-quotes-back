@@ -22,6 +22,6 @@ class LikeController extends Controller
 	public function destroy(LikeDestroyRequest $request, Like $like): JsonResponse
 	{
 		$like->delete();
-		return response()->json(['message'=>'like deleted'], 202);
+		return response()->json(['message'=>'like deleted'], 204);
 	}
 }
