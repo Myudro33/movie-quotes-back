@@ -10,6 +10,7 @@ use App\Models\Movie;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Gate;
 
 class MovieController extends Controller
 {
@@ -25,7 +26,11 @@ class MovieController extends Controller
 
 	public function show(Movie $movie): JsonResponse
 	{
-		return response()->json(['message'=>'success', 'movie'=>new MovieResource($movie)], 200);
+		if (Gate::allows('view', $movie)) {
+			return response()->json(['message'=>'success', 'movie'=>new MovieResource($movie)], 200);
+		} else {
+			return response()->json(['error'=>"You can't see this movie."], 403);
+		}
 	}
 
 	public function store(MovieStoreRequest $request): JsonResponse
