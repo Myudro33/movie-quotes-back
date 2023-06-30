@@ -8,18 +8,29 @@ use App\Http\Resources\MovieResource;
 use App\Models\Genre;
 use App\Models\Movie;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Gate;
 
 class MovieController extends Controller
 {
-	public function index(): JsonResponse
+	public function index(Request $request): JsonResponse
 	{
+		$query = $request->query('query');
+		if ($query) {
+			$movies = Movie::filterByName($query)->with('quotes')->get();
+			return response()->json(['movies'=>MovieResource::collection($movies)]);
+		}
 		return response()->json(['message'=>'success', 'movies'=>MovieResource::collection(Movie::all())]);
 	}
 
 	public function show(Movie $movie): JsonResponse
 	{
-		return response()->json(['message'=>'success', 'movie'=>new MovieResource($movie)], 200);
+		if (Gate::allows('view', $movie)) {
+			return response()->json(['message'=>'success', 'movie'=>new MovieResource($movie)], 200);
+		} else {
+			return response()->json(['error'=>"You can't see this movie."], 403);
+		}
 	}
 
 	public function store(MovieStoreRequest $request): JsonResponse
@@ -57,7 +68,8 @@ class MovieController extends Controller
 		$genreData = json_decode($request->genre, true);
 		$genreIds = array_column($genreData, 'id');
 		$genres = Genre::whereIn('id', $genreIds)->get();
-		$movie->genres()->detach($genres);
+		$movie->genres()->detach();
+		$movie->genres()->attach($genres);
 		return response()->json(['message'=>'movie updated', 'movie'=>new MovieResource($movie)], 201);
 	}
 

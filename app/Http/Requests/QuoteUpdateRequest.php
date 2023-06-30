@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
 
-class QuoteStoreRequest extends FormRequest
+class QuoteUpdateRequest extends FormRequest
 {
 	/**
 	 * Get the validation rules that apply to the request.
@@ -21,8 +21,7 @@ class QuoteStoreRequest extends FormRequest
 	public function rules(): array
 	{
 		return [
-			'movie_id'   => 'required|numeric',
-			'user_id'    => 'required|numeric',
+			'user_id'    => 'required|numeric|exists:users,id',
 			'title'      => 'required|json',
 		];
 	}

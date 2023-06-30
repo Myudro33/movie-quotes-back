@@ -14,6 +14,12 @@ class Movie extends Model
 
 	protected $fillable = ['name', 'user_id', 'year', 'image', 'director', 'description'];
 
+	public function scopeFilterByName($query, $quote)
+	{
+		return $query->where('name->en', 'LIKE', "%$quote%")
+			->orWhere('name->ka', 'LIKE', "%$quote%");
+	}
+
 	public function author(): BelongsTo
 	{
 		return $this->belongsTo(User::class, 'user_id');
