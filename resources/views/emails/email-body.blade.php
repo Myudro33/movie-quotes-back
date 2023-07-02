@@ -21,7 +21,7 @@
             </a> 
 
             <p style="color:white; font-size:16px; font-family:sans-serif; margin-top:30px;">{{ __('email.email_paragraph') }}</p>
-            <a style="display:inline; width: 100%; white-space:normal" href="{{env('FRONTEND_URL')}}/{{ $user->verification_token }}?email=email" > <p style="white-space:unset; color: #DDCCAA ; text-decoration: none; text-align:left;  padding-top:20px">{{ env('FRONTEND_URL') }}/{{ $user->verification_token }}?email=email</p> </a>
+            <a style="display:inline; width: 100%; white-space:normal" href="{{env('FRONTEND_URL')}}/{{ $user->verification_token }}?email=email" > <p style="white-space:unset; color: #DDCCAA ; text-decoration: none; text-align:left;  padding-top:20px">{{ env('FRONTEND_URL') }}/verify/{{ $user->verification_token }}?email=email</p> </a>
             <p style="color:white; font-size:16px; font-family:sans-serif">{{ __('email.email_problem') }}</p>
             <p style="color:white; font-size:16px; font-family:sans-serif">{{ __('email.crew') }}</p>
         </div>
