@@ -24,6 +24,7 @@ class LikeCreateRequest extends FormRequest
 		return [
 			'quote_id'=> 'exists:quotes,id',
 			'user_id' => 'exists:users,id',
+			'author'  => 'required|numeric',
 		];
 	}
 

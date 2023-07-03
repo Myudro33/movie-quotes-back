@@ -10,6 +10,7 @@ use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\GenreController;
+use App\Http\Controllers\NotificationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -73,4 +74,8 @@ Route::controller(CommentController::class)->group(function () {
 
 Route::controller(GenreController::class)->group(function () {
 	Route::get('/genres', 'index')->name('genres.get');
+});
+
+Route::controller(NotificationController::class)->group(function () {
+	Route::get('/notifications/{user}', 'index')->name('notifications.get');
 });
