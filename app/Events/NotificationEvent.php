@@ -26,9 +26,4 @@ class NotificationEvent implements ShouldBroadcast
 	{
 		return new PrivateChannel('notification.' . $this->notification->post_author);
 	}
-
-	public function broadcastAs()
-	{
-		return 'NotificationEvent';
-	}
 }

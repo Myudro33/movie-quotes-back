@@ -1,6 +1,5 @@
 <?php
 
-use App\Broadcasting\Notification;
 use Illuminate\Support\Facades\Broadcast;
 
 /*
@@ -13,9 +12,6 @@ use Illuminate\Support\Facades\Broadcast;
 | used to check if an authenticated user can listen to the channel.
 |
 */
-
-// Broadcast::channel('notification.{userId}', Notification::class);
-
-// Broadcast::channel('notification.{userId}', function ($user, $userId) {
-// 	return $user->id == $userId;
-// });
+Broadcast::channel('notification.{userId}', function ($user, $userId) {
+	return $user->id == $userId;
+});
