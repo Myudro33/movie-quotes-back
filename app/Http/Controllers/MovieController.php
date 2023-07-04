@@ -18,10 +18,10 @@ class MovieController extends Controller
 	{
 		$query = $request->query('query');
 		if ($query) {
-			$movies = Movie::filterByName($query)->with('quotes')->get();
+			$movies = Movie::where('user_id', auth()->user()->id)->filterByName($query)->with('quotes')->get();
 			return response()->json(['movies'=>MovieResource::collection($movies)]);
 		}
-		return response()->json(['message'=>'success', 'movies'=>MovieResource::collection(Movie::all())]);
+		return response()->json(['message'=>'success', 'movies'=>MovieResource::collection(Movie::where('user_id', auth()->user()->id)->get())]);
 	}
 
 	public function show(Movie $movie): JsonResponse
