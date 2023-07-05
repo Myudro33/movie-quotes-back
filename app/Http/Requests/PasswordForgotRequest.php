@@ -24,4 +24,14 @@ class PasswordForgotRequest extends FormRequest
 			'email'=> 'required|email|exists:users,email',
 		];
 	}
+
+	public function messages()
+	{
+		return [
+			'email.exists' => [
+				'ka' => __('validation.exists', ['attribute' => 'იმეილი'], 'ka'),
+				'en' => __('validation.exists', ['attribute' => 'email'], 'en'),
+			],
+		];
+	}
 }

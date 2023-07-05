@@ -1,8 +1,8 @@
 <?php
 
 return [
-	'confirmed'         => ':attribute არ ემთხვევა.',
-	'email'             => ':attribute  უნდა იყოს იმეილის ფორმატში',
+	'confirmed'         => ':attribute არ ემთხვევა პაროლის ველს.',
+	'email'             => ':attribute უნდა იყოს იმეილის ფორმატში',
 	'exists'            => 'მითითებული :attribute არ მოიძებნა.',
 	'image'             => 'მითითებული :attribute უნდა იყოს სურათი.',
 	'lowercase'         => ':attribute უნდა იყოს დაბალ რეგისტრში.',
@@ -24,7 +24,7 @@ return [
 	],
 
 	'attributes' => [
-		'username'        => 'მომხმარებლის სახელი',
+		'username'        => 'სახელი',
 		'email'           => 'იმეილი',
 		'password'        => 'პაროლი',
 	],
