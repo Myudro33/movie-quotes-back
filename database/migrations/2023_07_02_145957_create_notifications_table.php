@@ -14,9 +14,9 @@ return new class extends Migration {
 			$table->id();
 			$table->foreignId('user_id')->constrained('users')
 			->onDelete('cascade');
-            $table->boolean('seen');
-            $table->string('type');
-            $table->smallInteger('post_author');
+			$table->boolean('seen');
+			$table->string('type');
+			$table->unsignedTinyInteger('post_author');
 			$table->timestamps();
 		});
 	}
