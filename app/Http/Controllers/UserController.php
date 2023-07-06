@@ -40,7 +40,7 @@ class UserController extends Controller
 				Mail::to($user->email)->locale($query)->send(new UpdateEmail($token, $user->email, $email));
 				return response()->json(['email'=>$user->email, 'new_email'=>$email, 'message'=>'email sent successfully'], 200);
 			}
-			if ($request->password !== null) {
+			if (!$request->password) {
 				$user->password = $request->password;
 			}
 			$user->save();
