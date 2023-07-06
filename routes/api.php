@@ -42,6 +42,7 @@ Route::controller(GoogleAuthController::class)->group(function () {
 });
 Route::controller(EmailVerificationController::class)->group(function () {
 	Route::get('/verify-email/{token}', 'verifyEmail')->name('user.email_verify');
+	Route::get('/verify-token/{user}', 'verifyToken')->name('users.reset_token_verify');
 	Route::post('/update-email/{token}', 'updateEmail')->name('user.email_update');
 });
 
