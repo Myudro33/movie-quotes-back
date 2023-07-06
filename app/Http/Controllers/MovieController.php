@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\MovieStoreRequest;
 use App\Http\Requests\MovieUpdateRequest;
 use App\Http\Resources\MovieResource;
+use App\Http\Resources\MovieResourceCollection;
 use App\Models\Genre;
 use App\Models\Movie;
 use Illuminate\Http\JsonResponse;
@@ -21,7 +22,11 @@ class MovieController extends Controller
 			$movies = Movie::where('user_id', auth()->user()->id)->filterByName($query)->with('quotes')->get();
 			return response()->json(['movies'=>MovieResource::collection($movies)]);
 		}
-		return response()->json(['message'=>'success', 'movies'=>MovieResource::collection(Movie::where('user_id', auth()->user()->id)->get())]);
+		$perPage = $request->input('perPage', 10);
+		$page = $request->input('page', 1);
+		$movies = Movie::where('user_id', auth()->user()->id)->orderBy('created_at', 'desc')
+		->paginate($perPage, ['*'], 'page', $page);
+		return response()->json(['message'=>'success', 'movies'=>new MovieResourceCollection($movies)]);
 	}
 
 	public function show(Movie $movie): JsonResponse
