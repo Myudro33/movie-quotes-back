@@ -15,13 +15,15 @@ class CommentController extends Controller
 	public function create(CommentStoreRequest $request): JsonResponse
 	{
 		$comment = Comment::create($request->validated());
-		$notification = Notification::create([
-			'type'         => 'comment',
-			'seen'         => false,
-			'user_id'      => auth('sanctum')->user()->id,
-			'post_author'  => $request->author,
-		]);
-		event(new NotificationEvent(new NotificationResource($notification)));
+		if ($request->author !== auth('sanctum')->user()->id) {
+			$notification = Notification::create([
+				'type'         => 'comment',
+				'seen'         => false,
+				'user_id'      => auth('sanctum')->user()->id,
+				'post_author'  => $request->author,
+			]);
+			event(new NotificationEvent(new NotificationResource($notification)));
+		}
 		return response()->json(['message'=>'success', 'comment'=>new CommentResource($comment)], 201);
 	}
 }
