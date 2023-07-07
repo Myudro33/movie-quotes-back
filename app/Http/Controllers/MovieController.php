@@ -5,28 +5,18 @@ namespace App\Http\Controllers;
 use App\Http\Requests\MovieStoreRequest;
 use App\Http\Requests\MovieUpdateRequest;
 use App\Http\Resources\MovieResource;
-use App\Http\Resources\MovieResourceCollection;
 use App\Models\Genre;
 use App\Models\Movie;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Gate;
 
 class MovieController extends Controller
 {
-	public function index(Request $request): JsonResponse
+	public function index(): JsonResponse
 	{
-		$query = $request->query('query');
-		if ($query) {
-			$movies = Movie::where('user_id', auth()->user()->id)->filterByName($query)->with('quotes')->get();
-			return response()->json(['movies'=>MovieResource::collection($movies)]);
-		}
-		$perPage = $request->input('perPage', 10);
-		$page = $request->input('page', 1);
-		$movies = Movie::where('user_id', auth()->user()->id)->orderBy('created_at', 'desc')
-		->paginate($perPage, ['*'], 'page', $page);
-		return response()->json(['message'=>'success', 'movies'=>new MovieResourceCollection($movies)]);
+		$movies = Movie::where('user_id', auth()->user()->id)->orderBy('created_at', 'desc')->get();
+		return response()->json(['movies'=>MovieResource::collection($movies)]);
 	}
 
 	public function show(Movie $movie): JsonResponse
