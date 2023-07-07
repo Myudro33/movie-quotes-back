@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\NotificationEvent;
+use App\Events\PublicNotificationEvent;
 use App\Http\Requests\LikeCreateRequest;
 use App\Http\Requests\LikeDestroyRequest;
 use App\Http\Resources\LikeResource;
@@ -25,14 +26,17 @@ class LikeController extends Controller
 				'seen'         => false,
 				'user_id'      => auth('sanctum')->user()->id,
 				'post_author'  => $request->author,
+				'quote_id'     => $request->quote_id,
 			]);
 			event(new NotificationEvent(new NotificationResource($notification)));
 		}
+		event(new PublicNotificationEvent(new LikeResource($like), true));
 		return response()->json(['message'=>'success', 'like'=>new LikeResource($like)], 201);
 	}
 
 	public function destroy(LikeDestroyRequest $request, Like $like): JsonResponse
 	{
+		event(new PublicNotificationEvent(new LikeResource($like), false));
 		$like->delete();
 		return response()->json(['message'=>'like deleted'], 204);
 	}

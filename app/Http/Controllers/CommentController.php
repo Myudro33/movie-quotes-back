@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\NotificationEvent;
+use App\Events\PublicNotificationEvent;
 use App\Http\Requests\CommentStoreRequest;
 use App\Http\Resources\CommentResource;
 use App\Http\Resources\NotificationResource;
@@ -24,6 +25,8 @@ class CommentController extends Controller
 			]);
 			event(new NotificationEvent(new NotificationResource($notification)));
 		}
+		event(new PublicNotificationEvent(new CommentResource($comment), true));
+
 		return response()->json(['message'=>'success', 'comment'=>new CommentResource($comment)], 201);
 	}
 }
