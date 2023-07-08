@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\EmailUpdateRequest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Password;
 
 class EmailVerificationController extends Controller
 {
@@ -18,11 +19,9 @@ class EmailVerificationController extends Controller
 		return response()->json(['stage'=>'verified'], 200);
 	}
 
-	public function verifyToken(User $user): JsonResponse
+	public function verifyToken(Request $request, User $user): JsonResponse
 	{
-		$tokenExists = DB::table('password_reset_tokens')
-				->where('email', $user->email)
-				->exists();
+		$tokenExists = Password::tokenExists($user, $request->token);
 		if ($tokenExists) {
 			return response()->json(['stage'=>'reset-email-verified'], 200);
 		} else {
