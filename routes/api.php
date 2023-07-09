@@ -79,4 +79,5 @@ Route::controller(GenreController::class)->group(function () {
 
 Route::controller(NotificationController::class)->group(function () {
 	Route::get('/notifications/{user}', 'index')->name('notifications.get');
+	Route::put('/notifications', 'update')->name('notifications.update');
 });
