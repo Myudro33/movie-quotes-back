@@ -16,7 +16,7 @@ return new class extends Migration {
 			->onDelete('cascade');
 			$table->boolean('seen');
 			$table->string('type');
-			$table->unsignedTinyInteger('post_author');
+			$table->unsignedBigInteger('post_author');
 			$table->timestamps();
 		});
 	}
