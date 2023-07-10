@@ -70,7 +70,9 @@ class MovieController extends Controller
 
 	public function destroy(Movie $movie): JsonResponse
 	{
-		$movie->delete();
-		return response()->json(['message'=>'movie deleted', 'movie'=>$movie], 202);
+		if (Gate::allows('delete', $movie)) {
+			$movie->delete();
+			return response()->json(['message'=>'movie deleted', 'movie'=>$movie], 202);
+		}
 	}
 }
