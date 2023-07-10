@@ -5,11 +5,11 @@ namespace App\Http\Controllers;
 use App\Events\NotificationEvent;
 use App\Events\PublicNotificationEvent;
 use App\Http\Requests\LikeCreateRequest;
-use App\Http\Requests\LikeDestroyRequest;
 use App\Http\Resources\LikeResource;
 use App\Http\Resources\NotificationResource;
 use App\Models\Like;
 use App\Models\Notification;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\JsonResponse;
 
 class LikeController extends Controller
@@ -34,10 +34,12 @@ class LikeController extends Controller
 		return response()->json(['message'=>'success', 'like'=>new LikeResource($like)], 201);
 	}
 
-	public function destroy(LikeDestroyRequest $request, Like $like): JsonResponse
+	public function destroy(Like $like): JsonResponse
 	{
-		event(new PublicNotificationEvent(new LikeResource($like), false));
-		$like->delete();
-		return response()->json(['message'=>'like deleted'], 204);
+		if (Gate::allows('delete', $like)) {
+			$like->delete();
+			event(new PublicNotificationEvent(new LikeResource($like), false));
+			return response()->json(['message'=>'like deleted'], 204);
+		}
 	}
 }
