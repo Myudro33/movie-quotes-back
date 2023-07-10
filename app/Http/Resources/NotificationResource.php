@@ -21,7 +21,6 @@ class NotificationResource extends JsonResource
 			'seen'       => $this->seen,
 			'user'       => new UserResource(User::where('id', $this->user_id)->first()),
 			'post_author'=> $this->post_author,
-			'quote_id'   => $request->quote_id,
 			'date'       => $this->created_at->diffForHumans(),
 		];
 	}
