@@ -15,6 +15,11 @@ class MoviePolicy
 		return $user->id === $movie->user_id;
 	}
 
+	public function update(User $user, Movie $movie): bool
+	{
+		return $user->id === $movie->user_id;
+	}
+
 	public function delete(User $user, Movie $movie): bool
 	{
 		return $user->id === $movie->user_id;

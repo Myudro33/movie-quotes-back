@@ -44,28 +44,30 @@ class MovieController extends Controller
 
 	public function update(MovieUpdateRequest $request, Movie $movie): JsonResponse
 	{
-		if ($request->hasFile('image')) {
-			$request->validate(['image'=>'image|mimes:png,jpg']);
-			$imagePath = public_path('storage/images/' . $movie->image);
-			if (File::exists($imagePath)) {
-				File::delete($imagePath);
+		if (Gate::allows('update', $movie)) {
+			if ($request->hasFile('image')) {
+				$request->validate(['image'=>'image|mimes:png,jpg']);
+				$imagePath = public_path('storage/images/' . $movie->image);
+				if (File::exists($imagePath)) {
+					File::delete($imagePath);
+				}
+				$imagePath = $request->file('image')->store('public/images');
+				$movie->update(
+					[
+						'image'      => basename($imagePath),
+						...$request->validated(),
+					]
+				);
+			} else {
+				$movie->update($request->validated());
 			}
-			$imagePath = $request->file('image')->store('public/images');
-			$movie->update(
-				[
-					'image'      => basename($imagePath),
-					...$request->validated(),
-				]
-			);
-		} else {
-			$movie->update($request->validated());
+			$genreData = json_decode($request->genre, true);
+			$genreIds = array_column($genreData, 'id');
+			$genres = Genre::whereIn('id', $genreIds)->get();
+			$movie->genres()->detach();
+			$movie->genres()->attach($genres);
+			return response()->json(['message'=>'movie updated', 'movie'=>new MovieResource($movie)], 201);
 		}
-		$genreData = json_decode($request->genre, true);
-		$genreIds = array_column($genreData, 'id');
-		$genres = Genre::whereIn('id', $genreIds)->get();
-		$movie->genres()->detach();
-		$movie->genres()->attach($genres);
-		return response()->json(['message'=>'movie updated', 'movie'=>new MovieResource($movie)], 201);
 	}
 
 	public function destroy(Movie $movie): JsonResponse
