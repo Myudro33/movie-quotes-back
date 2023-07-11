@@ -10,6 +10,7 @@ use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\GenreController;
+use App\Http\Controllers\NotificationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -41,6 +42,7 @@ Route::controller(GoogleAuthController::class)->group(function () {
 });
 Route::controller(EmailVerificationController::class)->group(function () {
 	Route::get('/verify-email/{token}', 'verifyEmail')->name('user.email_verify');
+	Route::post('/verify-token/{user}', 'verifyToken')->name('users.reset_token_verify');
 	Route::post('/update-email/{token}', 'updateEmail')->name('user.email_update');
 });
 
@@ -73,4 +75,9 @@ Route::controller(CommentController::class)->group(function () {
 
 Route::controller(GenreController::class)->group(function () {
 	Route::get('/genres', 'index')->name('genres.get');
+});
+
+Route::controller(NotificationController::class)->group(function () {
+	Route::get('/notifications/{user}', 'index')->name('notifications.get');
+	Route::put('/notifications', 'update')->name('notifications.update');
 });

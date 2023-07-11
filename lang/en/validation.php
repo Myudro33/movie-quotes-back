@@ -14,7 +14,7 @@ return [
 
 	'array'             => 'The :attribute field must be an array.',
 	'boolean'           => 'The :attribute field must be true or false.',
-	'confirmed'         => 'The :attribute field confirmation does not match.',
+	'confirmed'         => 'The :attribute field does not match.',
 	'current_password'  => 'The password is incorrect.',
 	'email'             => 'The :attribute field must be a valid email address.',
 	'ends_with'         => 'The :attribute field must end with one of the following: :values.',

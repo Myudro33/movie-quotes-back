@@ -23,7 +23,7 @@ class UserUpdateRequest extends FormRequest
 		return [
 			'username'=> 'min:3|max:15|lowercase',
 			'email'   => 'nullable|email',
-			'password'=> 'nullable|min:8|max:15|lowercase',
+			'password'=> 'nullable|min:8|max:15|lowercase|confirmed',
 		];
 	}
 }

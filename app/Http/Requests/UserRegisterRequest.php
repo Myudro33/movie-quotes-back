@@ -16,18 +16,23 @@ class UserRegisterRequest extends FormRequest
 	public function rules(): array
 	{
 		return [
-			'username'        => 'required',
+			'username'        => 'required|unique:users,username',
 			'email'           => 'required|email|unique:users,email',
-			'password'        => 'required',
+			'password'        => 'required|confirmed',
 		];
 	}
 
 	public function messages()
 	{
 		return [
-			'required'        => ['en'=>'field is required.', 'ka'=>'სავალდებულოა.'],
-			'email'           => ['en'=>'field must be a valid email address.', 'ka'=>'ველი უნდა იყოს იმეილის ფორმატის'],
-			'unique'          => ['en'=>'has already been taken.', 'ka'=>'უკვე გამოყენებულია'],
+			'username.unique' => [
+				'ka' => __('validation.unique', ['attribute' => 'სახელი'], 'ka'),
+				'en' => __('validation.unique', ['attribute' => 'username'], 'en'),
+			],
+			'email.unique' => [
+				'ka' => __('validation.unique', ['attribute' => 'იმეილი'], 'ka'),
+				'en' => __('validation.unique', ['attribute' => 'email'], 'en'),
+			],
 		];
 	}
 }

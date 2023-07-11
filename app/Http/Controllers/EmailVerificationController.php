@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\EmailUpdateRequest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Password;
 
 class EmailVerificationController extends Controller
 {
@@ -15,6 +17,16 @@ class EmailVerificationController extends Controller
 		$user->verification_token = null;
 		$user->save();
 		return response()->json(['stage'=>'verified'], 200);
+	}
+
+	public function verifyToken(Request $request, User $user): JsonResponse
+	{
+		$tokenExists = Password::tokenExists($user, $request->token);
+		if ($tokenExists) {
+			return response()->json(['stage'=>'reset-email-verified'], 200);
+		} else {
+			return response()->json(['message'=>'token not found'], 404);
+		}
 	}
 
 	public function updateEmail(EmailUpdateRequest $request, $token): JsonResponse

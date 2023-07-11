@@ -27,7 +27,7 @@ class AuthController extends Controller
 		->orWhere('username', $request->validated('username'))
 		->first();
 		if ($user) {
-			if (Auth::attempt(['username' => $user->username, 'password' => $request->validated('password')], (bool) $request->has('remember'))) {
+			if (Auth::attempt(['username' => $user->username, 'password' => $request->validated('password')], (bool) $request->remember)) {
 				return response()->json(['message'=>'success', 'user'=>$user], 200);
 			}
 		}

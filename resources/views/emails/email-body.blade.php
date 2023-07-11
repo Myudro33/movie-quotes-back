@@ -15,13 +15,13 @@
         <div style="text-align:start; margin-top:50px; margin-left: 5%;">
             <p style="font-family: sans-serif;color:white;font-family: sans-serif; font-size: 16px"> {{ __('email.hola') }} {{$user->username}}</p>
             <p style="font-family: sans-serif; sans-serif; font-size: 16px; color:white">{{ __('email.email_verify_heading') }}</p> 
-            <a href="{{env('FRONTEND_URL')}}/{{ $user->verification_token }}?email=email"
+            <a href="{{env('FRONTEND_URL')}}/verify/{{ $user->verification_token }}?email=email"
                 >
                 <button style="cursor: pointer; font-family: sans-serif; margin-top: 10px;  text-align:center; background-color:#E31221; border-radius:8px; border:none; color:white;padding: 15px; height:50px; font-size: 16px; text-decoration:none;" >{{ __('email.email_verify_button') }}</button> 
             </a> 
 
             <p style="color:white; font-size:16px; font-family:sans-serif; margin-top:30px;">{{ __('email.email_paragraph') }}</p>
-            <a style="display:inline; width: 100%; white-space:normal" href="{{env('FRONTEND_URL')}}/{{ $user->verification_token }}?email=email" > <p style="white-space:unset; color: #DDCCAA ; text-decoration: none; text-align:left;  padding-top:20px">{{ env('FRONTEND_URL') }}/{{ $user->verification_token }}?email=email</p> </a>
+            <a style="display:inline; width: 100%; white-space:normal" href="{{env('FRONTEND_URL')}}/verify/{{ $user->verification_token }}?email=email" > <p style="white-space:unset; color: #DDCCAA ; text-decoration: none; text-align:left;  padding-top:20px">{{ env('FRONTEND_URL') }}/verify/{{ $user->verification_token }}?email=email</p> </a>
             <p style="color:white; font-size:16px; font-family:sans-serif">{{ __('email.email_problem') }}</p>
             <p style="color:white; font-size:16px; font-family:sans-serif">{{ __('email.crew') }}</p>
         </div>
