@@ -6,8 +6,8 @@ use App\Http\Requests\UserUpdateRequest;
 use App\Mail\UpdateEmail;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class UserController extends Controller
@@ -18,14 +18,14 @@ class UserController extends Controller
 		if ($request->hasFile('avatar')) {
 			$request->validate(['avatar'=>'image|mimes:png,jpg']);
 			if ($user->avatar) {
-				$avatarPath = public_path('storage/avatars/' . $user->avatar);
-				if (File::exists($avatarPath)) {
-					File::delete($avatarPath);
+				$fileName = Str::afterLast($user->avatar, '/');
+				if ($fileName !== null && Storage::exists("public/avatars/$fileName")) {
+					Storage::delete("public/avatars/$fileName");
 				}
 			}
-			$avatar = $request->file('avatar');
-			$avatarPath = $avatar->store('public/avatars');
-			$user->avatar = basename($avatarPath);
+			$avatarPath = $request->file('avatar')->store('public/avatars');
+			$fullPath = asset('storage/' . Str::after($avatarPath, 'public/'));
+			$user->avatar = $fullPath;
 			$user->save();
 			return response()->json(['avatar'=>$user->avatar], 200);
 		} else {
