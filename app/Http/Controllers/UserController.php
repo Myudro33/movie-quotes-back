@@ -6,8 +6,8 @@ use App\Http\Requests\UserUpdateRequest;
 use App\Mail\UpdateEmail;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
 class UserController extends Controller
@@ -29,11 +29,11 @@ class UserController extends Controller
 			$user->save();
 			return response()->json(['avatar'=>$user->avatar], 200);
 		} else {
-			if ($request->has('username')) {
+			if ($request->username !== null) {
 				$user->username = $request->username;
 			}
 			$email = $request->email;
-			if ($email !== $user->email) {
+			if ($email !== null) {
 				$token = Str::random(40);
 				$user->verification_token = $token;
 				$user->save();

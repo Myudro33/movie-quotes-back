@@ -21,9 +21,23 @@ class UserUpdateRequest extends FormRequest
 	public function rules(): array
 	{
 		return [
-			'username'=> 'min:3|max:15|lowercase',
-			'email'   => 'nullable|email',
+			'username'=> 'nullable|min:3|max:15|unique:users,username,lowercase',
+			'email'   => 'nullable|email|unique:users,email',
 			'password'=> 'nullable|min:8|max:15|lowercase|confirmed',
+		];
+	}
+
+	public function messages()
+	{
+		return [
+			'username.unique' => [
+				'ka' => __('validation.unique', ['attribute' => 'სახელი'], 'ka'),
+				'en' => __('validation.unique', ['attribute' => 'username'], 'en'),
+			],
+			'email.unique' => [
+				'ka' => __('validation.unique', ['attribute' => 'იმეილი'], 'ka'),
+				'en' => __('validation.unique', ['attribute' => 'email'], 'en'),
+			],
 		];
 	}
 }
