@@ -167,4 +167,4 @@ DrawSQL:
 ```sh
 https://drawsql.app/teams/nika-1/diagrams/movie-quotes
 ```
-<a href="https://ibb.co/1zppwGP"><img height='300px' width="50%" src="https://i.ibb.co/1zppwGP/Screenshot-from-2023-07-13-18-19-39.png" alt="Screenshot-from-2023-07-13-18-19-39" border="0"></a>
+<a href="https://drawsql.app/teams/nika-1/diagrams/movie-quotes"><img height='300px' width="50%" src="https://i.ibb.co/1zppwGP/Screenshot-from-2023-07-13-18-19-39.png" alt="Screenshot-from-2023-07-13-18-19-39" border="0"></a>
