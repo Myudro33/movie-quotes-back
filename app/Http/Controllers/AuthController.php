@@ -16,7 +16,7 @@ class AuthController extends Controller
 	{
 		$query = $request->query('locale');
 		$user = User::create([
-			'avatar'=> 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSC5GqBuSklfe6D_1Q5SVgwphQFg7Fxjx7RWvg-uejsSA&s',
+			'avatar'=> 'default-avatar.png',
 			...$request->validated(),
 		]);
 		Mail::to($user->email)->locale($query)
