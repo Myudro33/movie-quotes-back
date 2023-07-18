@@ -13,7 +13,7 @@
             <p style="font-size: 12px; color:#DDCCAA; line-height: 18px;font-family: sans-serif;">{{ __('email.movie_quotes') }}</p>
         </div>
         <div style="text-align:start; margin-top:50px; margin-left: 5%;">
-            <p style="font-family: sans-serif; sans-serif; font-size: 16px; color:white">{{__('email.email_password_update_heading')}}</p> 
+            <p style="font-family: sans-serif; font-size: 16px; color:white">{{__('email.email_password_update_heading')}}</p> 
             <a href="{{ $url }}"
                 >
                 <button style="cursor: pointer; font-family: sans-serif; margin-top: 10px;  text-align:center; background-color:#E31221; border-radius:8px; border:none; color:white;padding: 15px; height:50px; font-size: 16px; text-decoration:none;" >{{__('email.password_update_button')}}</button> 
