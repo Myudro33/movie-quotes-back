@@ -33,7 +33,7 @@ Route::controller(UserController::class)->group(function () {
 });
 Route::controller(AuthController::class)->group(function () {
 	Route::post('/register', 'register')->name('user.register');
-	Route::post('/login', 'login')->name('user.login')->middleware('auth:sanctum');
+	Route::post('/login', 'login')->name('user.login');
 	Route::post('/logout', 'logout')->name('user.logout');
 });
 Route::controller(GoogleAuthController::class)->group(function () {
