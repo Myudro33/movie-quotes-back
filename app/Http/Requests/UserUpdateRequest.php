@@ -21,9 +21,9 @@ class UserUpdateRequest extends FormRequest
 	public function rules(): array
 	{
 		return [
-			'username'=> 'nullable|min:3|max:15|unique:users,username,lowercase',
+			'username'=> 'nullable|string|min:3|max:15|unique:users,username,lowercase',
 			'email'   => 'nullable|email|unique:users,email',
-			'password'=> 'nullable|min:8|max:15|lowercase|confirmed',
+			'password'=> 'nullable|string|min:8|max:15|lowercase|confirmed',
 		];
 	}
 

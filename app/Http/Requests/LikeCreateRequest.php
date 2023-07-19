@@ -22,9 +22,8 @@ class LikeCreateRequest extends FormRequest
 	public function rules(): array
 	{
 		return [
-			'quote_id'=> 'exists:quotes,id',
-			'user_id' => 'exists:users,id',
-			'author'  => 'required|numeric',
+			'quote_id'=> 'numeric|exists:quotes,id',
+			'user_id' => 'numeric|exists:users,id',
 		];
 	}
 
