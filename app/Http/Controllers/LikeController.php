@@ -20,11 +20,11 @@ class LikeController extends Controller
 			'quote_id'=> $request->quote_id,
 			'user_id' => $request->user_id,
 		]);
-		if ($request->author !== auth('sanctum')->user()->id) {
+		if ($request->author !== auth()->user()->id) {
 			$notification = Notification::create([
 				'type'         => 'like',
 				'seen'         => false,
-				'user_id'      => auth('sanctum')->user()->id,
+				'user_id'      => auth()->user()->id,
 				'post_author'  => $request->author,
 				'quote_id'     => $request->quote_id,
 			]);
