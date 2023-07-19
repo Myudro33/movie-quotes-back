@@ -39,8 +39,7 @@ class AuthController extends Controller
 
 	public function logout(): JsonResponse
 	{
-		Auth::guard('web')->logout();
-
+		auth()->logout();
 		return response()->json(['data' => 'User Logout successfully.'], 200);
 	}
 }
