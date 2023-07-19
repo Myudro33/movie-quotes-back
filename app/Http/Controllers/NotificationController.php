@@ -12,7 +12,7 @@ class NotificationController extends Controller
 {
 	public function index(User $user): JsonResponse
 	{
-		$notifications = Notification::orderByDesc('id')->where('post_author', $user->id)->get();
+		$notifications = auth()->user()->notifications()->orderBy('created_at', 'desc')->get();
 		return response()->json(['notifications'=>NotificationResource::collection($notifications)]);
 	}
 
