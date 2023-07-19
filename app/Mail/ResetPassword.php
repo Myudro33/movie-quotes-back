@@ -12,17 +12,11 @@ class ResetPassword extends Mailable
 
 	use SerializesModels;
 
-	public $user;
-
-	public $token;
-
 	/**
 	 * Create a new message instance.
 	 */
-	public function __construct($user, $token)
+	public function __construct(public $user, public $token)
 	{
-		$this->user = $user;
-		$this->token = $token;
 	}
 
 	public function build()
