@@ -15,7 +15,7 @@ class MovieController extends Controller
 {
 	public function index(): JsonResponse
 	{
-		$movies = Movie::where('user_id', auth()->user()->id)->orderBy('created_at', 'desc')->get();
+		$movies = auth()->user()->movies()->orderBy('created_at', 'desc')->get();
 		return response()->json(['movies'=>MovieResource::collection($movies)]);
 	}
 
