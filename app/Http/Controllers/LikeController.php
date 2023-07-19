@@ -9,8 +9,8 @@ use App\Http\Resources\LikeResource;
 use App\Http\Resources\NotificationResource;
 use App\Models\Like;
 use App\Models\Notification;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Gate;
 
 class LikeController extends Controller
 {

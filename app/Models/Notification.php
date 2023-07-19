@@ -16,4 +16,9 @@ class Notification extends Model
 	{
 		return $this->belongsTo(User::class, 'post_author');
 	}
+
+	public function author(): BelongsTo
+	{
+		return $this->belongsTo(User::class, 'user_id');
+	}
 }
