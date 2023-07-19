@@ -19,7 +19,7 @@ class MovieUpdateRequest extends FormRequest
 	public function rules()
 	{
 		return [
-			'user_id'    => 'required|numeric',
+			'user_id'    => 'required|numeric|exists:users,id',
 			'name'       => 'required|json',
 			'year'       => 'required|numeric',
 			'genre'      => 'required|json',

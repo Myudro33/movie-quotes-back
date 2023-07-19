@@ -49,6 +49,11 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 		return $this->hasMany(Comment::class);
 	}
 
+	public function notifications()
+	{
+		return $this->hasMany(Notification::class, 'post_author');
+	}
+
 	public function setPasswordAttribute($value): void
 	{
 		$this->attributes['password'] = Hash::make($value);

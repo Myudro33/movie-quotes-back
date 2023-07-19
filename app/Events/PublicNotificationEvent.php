@@ -15,14 +15,8 @@ class PublicNotificationEvent implements ShouldBroadcast
 	/**
 	 * Create a new event instance.
 	 */
-	public $notification;
-
-	public $type;
-
-	public function __construct($notification, $type)
+	public function __construct(public $notification, public $type)
 	{
-		$this->notification = $notification;
-		$this->type = $type;
 	}
 
 	/**

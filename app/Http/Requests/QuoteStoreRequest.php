@@ -21,8 +21,8 @@ class QuoteStoreRequest extends FormRequest
 	public function rules(): array
 	{
 		return [
-			'movie_id'   => 'required|numeric',
-			'user_id'    => 'required|numeric',
+			'movie_id'   => 'required|numeric|exists:movies,id',
+			'user_id'    => 'required|numeric|exists:users,id',
 			'title'      => 'required|json',
 		];
 	}

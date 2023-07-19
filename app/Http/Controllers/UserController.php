@@ -17,11 +17,9 @@ class UserController extends Controller
 		$query = $request->query('locale');
 		if ($request->hasFile('avatar')) {
 			$request->validate(['avatar'=>'image|mimes:png,jpg']);
-			if ($user->avatar) {
-				$avatarPath = public_path('storage/avatars/' . $user->avatar);
-				if (File::exists($avatarPath)) {
-					File::delete($avatarPath);
-				}
+			$avatarPath = public_path('storage/avatars/' . $user->avatar);
+			if (File::exists($avatarPath)) {
+				File::delete($avatarPath);
 			}
 			$avatar = $request->file('avatar');
 			$avatarPath = $avatar->store('public/avatars');

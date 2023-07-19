@@ -16,8 +16,7 @@ class CommentStoreRequest extends FormRequest
 		return [
 			'user_id' => 'required|numeric|exists:users,id',
 			'quote_id'=> 'required|numeric|exists:quotes,id',
-			'title'   => 'required',
-			'author'  => 'required|numeric',
+			'title'   => 'required|string',
 		];
 	}
 }

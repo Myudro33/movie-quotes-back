@@ -9,6 +9,6 @@ class GenreController extends Controller
 {
 	public function index(): JsonResponse
 	{
-		return response()->json(['message'=>'success', 'genres'=>Genre::all(['id', 'name'])]);
+		return response()->json(['message'=>'success', 'genres'=>Genre::all()]);
 	}
 }
