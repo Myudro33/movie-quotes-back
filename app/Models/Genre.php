@@ -10,6 +10,8 @@ class Genre extends Model
 {
 	use HasFactory;
 
+	protected $hidden = ['created_at', 'updated_at'];
+
 	protected $fillable = ['name', 'movie_id', 'genre_id'];
 
 	protected $casts = [
