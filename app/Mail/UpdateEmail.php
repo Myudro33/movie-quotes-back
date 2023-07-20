@@ -12,20 +12,11 @@ class UpdateEmail extends Mailable
 
 	use SerializesModels;
 
-	public $token;
-
-	public $user;
-
-	public $email;
-
 	/**
 	 * Create a new message instance.
 	 */
-	public function __construct($token, $user, $email)
+	public function __construct(public $token, public $user, public $email)
 	{
-		$this->token = $token;
-		$this->user = $user;
-		$this->email = $email;
 	}
 
 	public function build()

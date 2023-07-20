@@ -12,14 +12,11 @@ class VerifyUser extends Mailable
 
 	use SerializesModels;
 
-	public $user;
-
 	/**
 	 * Create a new message instance.
 	 */
-	public function __construct($user)
+	public function __construct(public $user)
 	{
-		$this->user = $user;
 	}
 
 	public function build()
