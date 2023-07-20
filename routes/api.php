@@ -34,7 +34,7 @@ Route::controller(UserController::class)->group(function () {
 Route::controller(AuthController::class)->group(function () {
 	Route::post('/register', 'register')->name('user.register');
 	Route::post('/login', 'login')->name('user.login')->middleware('verify');
-	Route::post('/logout', 'logout')->name('user.logout');
+	Route::post('/logout', 'logout')->name('user.logout')->middleware('auth:sanctum');
 });
 Route::controller(GoogleAuthController::class)->group(function () {
 	Route::get('auth/redirect', 'redirect')->name('user.google_redirect');
@@ -43,7 +43,7 @@ Route::controller(GoogleAuthController::class)->group(function () {
 Route::controller(EmailVerificationController::class)->group(function () {
 	Route::get('/verify-email/{token}', 'verifyEmail')->name('user.email_verify');
 	Route::post('/verify-token/{user}', 'verifyToken')->name('users.reset_token_verify');
-	Route::post('/update-email/{token}', 'updateEmail')->name('user.email_update');
+	Route::post('/update-email/{token}', 'updateEmail')->name('user.email_update')->middleware('auth:sanctum');
 });
 
 Route::controller(PasswordResetController::class)->group(function () {
